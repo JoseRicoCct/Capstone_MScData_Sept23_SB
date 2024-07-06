@@ -1,0 +1,4 @@
+###Syncing Ubuntu OS repo with Windows OS repo ####
+git status
+git fetch origin
+git pull origin main
