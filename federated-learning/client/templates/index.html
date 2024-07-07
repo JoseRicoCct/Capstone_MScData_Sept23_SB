@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Federated Learning Client</title>
+</head>
+<body>
+    <h1>Federated Learning Client</h1>
+    <h2>Local Model</h2>
+    <pre>{{ model }}</pre>
+    <form action="/train" method="post">
+        <button type="submit">Train</button>
+    </form>
+    <form action="/send_update" method="post">
+        <button type="submit">Send Update</button>
+    </form>
+    <form action="/get_global_model" method="get">
+        <button type="submit">Get Global Model</button>
+    </form>
+</body>
+</html>
+
