@@ -1,0 +1,21 @@
+
+
+### Run the server ###
+export FLASK_ENV=development
+export FLASK_APP=server.py
+flask run
+
+python3 server.py
+
+
+
+python3 client.py client1 5001
+python3 client.py client2 5002
+python3 client.py client3 5003
+python3 client.py client4 5004
+python3 client.py client5 5005
+
+##### To see ports ####
+
+sudo lsof -i -P -n | grep python3
+
