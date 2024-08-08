@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository contains a set of twelve Jupyter Notebooks (JNs) that were evaluated to explore the capabilities of the PySyft framework. PySyft allows interaction using Jupyter Notebooks through its API. The version of Syft installed during the evaluation was `0.9.1b1`.
+This repository contains a set of twelve Jupyter Notebooks that were evaluated to explore the capabilities of the PySyft framework. PySyft allows interaction using Jupyter Notebooks through its API. The version of Syft installed during the evaluation was `0.9.1b1`.
 
 ## Tutorials
 
@@ -35,19 +35,23 @@ The remaining JNs delve into more advanced topics:
 4. **Server Interface**: The server, when launched via Jupyter Notebooks, presented a non-user-friendly interface.
 5. **Credentials Management**: To log in as the data owner, the credentials were changed. By default, the email and password are set. To customize them, it was necessary to adjust the Syft package code. Otherwise, it was not possible to change the credentials for the root user using the API.
 
-### Figures from the Evaluation
+### Figures from annex section `10.2.1. PySyft`
 
-![Figure 10.2.1](../../FiguresAndTables/Figure%2010.2.1.%20Evaluating%20Syft%20Jupyter%20Notebooks%20tutorials.png)
-**Figure 10.2.1. PySyft Jupyter Notebooks tutorials.**  
 
-![Figure 10.2.2](../../FiguresAndTables/Figure%2010.2.2.%20Changing%20root%20credentials%20Syft%20server.png)
-**Figure 10.2.2. Changing root credentials on the PySyft server.**  
+![Figure 10.2.1](../../FiguresAndTables/Figure%2010.2.1.%20Evaluating%20Syft%20Jupyter%20Notebooks%20tutorials.png)  
+**Figure 10.2.1: PySyft Jupyter Notebooks tutorials.**
 
-![Figure 10.2.3](../../FiguresAndTables/Figure%2010.2.3.%20PySyft%20JN%20server%20welcome%20message.png)
-**Figure 10.2.3. PySyft Jupyter Notebooks server welcome message.**  
 
-![Figure 10.2.4](../../FiguresAndTables/Figure%2010.2.4.%20Local%20host%20PySyft%20server.png)
-**Figure 10.2.4. Localhost PySyft server interface.**  
+![Figure 10.2.2](../../FiguresAndTables/Figure%2010.2.2.%20Changing%20root%20credentials%20Syft%20server.png)  
+**Figure 10.2.2: Changing root credentials on the PySyft server.**
+
+
+![Figure 10.2.3](../../FiguresAndTables/Figure%2010.2.3.%20PySyft%20JN%20server%20welcome%20message.png)  
+**Figure 10.2.3: PySyft Jupyter Notebooks server welcome message.** 
+
+
+![Figure 10.2.4](../../FiguresAndTables/Figure%2010.2.4.%20Local%20host%20PySyft%20server.png)  
+**Figure 10.2.4: Localhost PySyft server interface.**
 
 ## Conclusion
 
@@ -56,6 +60,14 @@ PySyft is a robust framework for privacy-preserving machine learning, suitable f
 ## Original Notebooks
 
 The original Jupyter Notebooks used in this evaluation can be found in the [OpenMined PySyft repository](https://github.com/OpenMined/PySyft/tree/dev/notebooks/api/0.8).
+
+## Installation
+
+To install the necessary dependencies for running the notebooks, please use the provided `requirements.txt` file:
+
+```bash
+pip install -r requirements.txt
+```
 
 ## References
 
