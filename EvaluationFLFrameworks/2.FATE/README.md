@@ -44,30 +44,30 @@ The FATE FL framework allows for the creation of pipelines that include setting 
 
 ![Figure 10.2.5: FATE tutorials directory](../../FiguresAndTables/Figure%2010.2.5.%20FATE%20tutorials%20directory.png)
 
- **Figure 10.2.5: FATE tutorials directory.**
+ **Figure 10.2.5. FATE tutorials directory.**  
  The `hetero_nn.py` script prepares a federated learning environment in the FATE framework for training a neural network model over heterogeneously partitioned data. It loads the required libraries and defines training and prediction functions. The **train** function initializes both guest and host context models and their training, while the **predict** function is used to make predictions. The **get_setting** function loads the dataset, model, optimizer, and training arguments. The **run** function orchestrates these steps and calculates the AUC score if the context is guest. Finally, the script is called using the multiprocessor launcher of FATE.
  
   ![Figure 10.2.6: Hetero-NN tutorial model](../../FiguresAndTables/Figure%2010.2.6.%20Hetero-NN%20tutorial%20model.png)
    
- **Figure 10.2.6: Hetero-NN tutorial model.**
+ **Figure 10.2.6. Hetero-NN tutorial model.**  
  
 ![Figure 10.2.7: Hetero-NN tutorial output](../../FiguresAndTables/Figure%2010.2.7.%20Hetero-NN%20tutorial%20output.png)
 
- **Figure 10.2.7: Hetero-NN tutorial output.**  
+ **Figure 10.2.7. Hetero-NN tutorial output.**  
   
 The `sbt.py` script initiates a federated learning environment to train a secure boosting tree model using the FATE framework. The script imports required libraries. The **train** function initializes and trains the model for both guest and host contexts with parameters: number of trees, objective, max depth, and learning rate. The **predict** function makes predictions from the trained model. The **csv_to_df** function reads CSV files into FATE data frames. The **run** function handles the flows of training and prediction, working with the distinction between guest and host data. Finally, the script is called using the multiprocessor launcher of FATE.
 
 ![Figure 10.2.8: Hetero-SecureBoost tutorial model](../../FiguresAndTables/Figure%2010.2.8.%20Hetero-SecureBoost%20tutorial%20model.png)
 
-**Figure 10.2.8: Hetero-SecureBoost tutorial model.**
+**Figure 10.2.8. Hetero-SecureBoost tutorial model.**  
 
 ![Figure 10.2.9: Hetero-SecureBoost tutorial output part 1](../../FiguresAndTables/Figure%2010.2.9.%20Hetero-SecureBoost%20tutorial%20output%20part%201.png)
 
-**Figure 10.2.9: Hetero-SecureBoost tutorial output part 1.**
+**Figure 10.2.9. Hetero-SecureBoost tutorial output part 1.**  
 
 ![Figure 10.2.10: Hetero-SecureBoost tutorial output part 2](../../FiguresAndTables/Figure%2010.2.10.%20Hetero-SecureBoost%20tutorial%20output%20part%202.png)
 
-**Figure 10.2.10: Hetero-SecureBoost tutorial output part 2.**
+**Figure 10.2.10. Hetero-SecureBoost tutorial output part 2.**  
 ## References
 
 - [Hetero-NN Tutorial](https://github.com/FederatedAI/FATE/blob/master/doc/2.0/fate/ml/hetero_nn_tutorial.md)

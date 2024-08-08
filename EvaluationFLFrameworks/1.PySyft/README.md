@@ -37,17 +37,17 @@ The remaining JNs delve into more advanced topics:
 
 ### Figures from the Evaluation
 
-**Figure 10.2.1: PySyft Jupyter Notebooks tutorials.**
 ![Figure 10.2.1](../../FiguresAndTables/Figure%2010.2.1.%20Evaluating%20Syft%20Jupyter%20Notebooks%20tutorials.png)
+**Figure 10.2.1. PySyft Jupyter Notebooks tutorials.**  
 
-**Figure 10.2.2: Changing root credentials on the PySyft server.**
 ![Figure 10.2.2](../../FiguresAndTables/Figure%2010.2.2.%20Changing%20root%20credentials%20Syft%20server.png)
+**Figure 10.2.2. Changing root credentials on the PySyft server.**  
 
-**Figure 10.2.3: PySyft Jupyter Notebooks server welcome message.**
 ![Figure 10.2.3](../../FiguresAndTables/Figure%2010.2.3.%20PySyft%20JN%20server%20welcome%20message.png)
+**Figure 10.2.3. PySyft Jupyter Notebooks server welcome message.**  
 
-**Figure 10.2.4: Localhost PySyft server interface.**
 ![Figure 10.2.4](../../FiguresAndTables/Figure%2010.2.4.%20Local%20host%20PySyft%20server.png)
+**Figure 10.2.4. Localhost PySyft server interface.**  
 
 ## Conclusion
 
