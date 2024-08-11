@@ -1,5 +1,5 @@
 # Evaluation of FedML Framework
-**FedML** is a comprehensive framework designed for **federated learning** experiments (FedML, 2021), enabling researchers and developers to implement and evaluate distributed machine learning models across multiple devices or organizations, ensuring data privacy and security through decentralized data processing. It supports diverse learning scenarios and provides tools for efficient experimentation.
+**FedML** is a comprehensive framework designed for **federated learning** experiments (FedML, 2023), enabling researchers and developers to implement and evaluate distributed machine learning models across multiple devices or organizations, ensuring data privacy and security through decentralized data processing. It supports diverse learning scenarios and provides tools for efficient experimentation.
 
 ### FedAvg MNIST LR Example
 
@@ -99,5 +99,5 @@ https://github.com/user-attachments/assets/f6568df0-d451-4e78-b4ea-fec5a662494e
 
 - [FedAvg MNIST LR  Example](https://github.com/FedML-AI/FedML/tree/master/python/examples/federate/cross_silo/mqtt_s3_fedavg_mnist_lr_example/step_by_step)
 - [Heart Disease Example](https://github.com/FedML-AI/FedML/tree/master/python/examples/federate/prebuilt_jobs/healthcare/fed_heart_disease)
-- FedML, 2021. [FedML GitHub Repository](https://github.com/FedML-AI/FedML/tree/master)
+- FedML, 2023. [FedML GitHub Repository](https://github.com/FedML-AI/FedML/tree/master)
 
