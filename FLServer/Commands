@@ -1,0 +1,30 @@
+cd ~/Desktop/FLServer
+
+
+### Create an enviroment ####
+
+python3 -m venv FLServerEnv
+
+source FLServerEnv/bin/activate
+pip install -r requirements.txt
+deactivate
+
+
+### Run the server ###
+python3 server.py
+
+
+### Connect the clients: ###
+python3 client.py client1 5001
+python3 client.py client2 5002
+python3 client.py client3 5003
+python3 client.py client4 5004
+python3 client.py client5 5005
+
+##### To see ports ####
+
+sudo lsof -i -P -n | grep python3
+
+kill -9 245380
+
+

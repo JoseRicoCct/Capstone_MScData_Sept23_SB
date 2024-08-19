@@ -1,2 +1,0 @@
-The authors evaluated the following features of the frameworks: ease of
-use and deployment, development, analysis capabilities, accuracy, and performance.
