@@ -31,12 +31,20 @@ import numpy as np
 app = Flask(__name__)
 
 def load_data(client_id):
+    # file_paths = {
+    #     'client1': 'scenarios/technological/client1/data1_iid.csv',
+    #     'client2': 'scenarios/technological/client2/data2_iid.csv',
+    #     'client3': 'scenarios/technological/client3/data3_iid.csv',
+    #     'client4': 'scenarios/technological/client4/data4_iid.csv',
+    #     'client5': 'scenarios/technological/client5/data5_iid.csv'
+    # } 
+
     file_paths = {
-        'client1': 'scenarios/technological/client1/fldata1.csv',
-        'client2': 'scenarios/technological/client2/fldata2.csv',
-        'client3': 'scenarios/technological/client3/fldata3.csv',
-        'client4': 'scenarios/technological/client4/fldata4.csv',
-        'client5': 'scenarios/technological/client5/fldata5.csv'
+        'client1': 'scenarios/technological/client1/data1_nonIID.csv',
+        'client2': 'scenarios/technological/client2/data2_nonIID.csv',
+        'client3': 'scenarios/technological/client3/data3_nonIID.csv',
+        'client4': 'scenarios/technological/client4/data4_nonIID.csv',
+        'client5': 'scenarios/technological/client5/data5_nonIID.csv'
     }
     
     df = pd.read_csv(file_paths[client_id])
@@ -124,6 +132,7 @@ def prepare_training():
     return jsonify({'message': 'Training preparation completed'}), 200
 
 
+
 @app.route('/start_training', methods=['POST'])
 def start_training():
     data = request.get_json()
@@ -131,6 +140,10 @@ def start_training():
     logging.info(f"Client {client_id} received start training signal for dataset {dataset}")
     print(f"Client {client_id} received start training signal for dataset {dataset}")
     
+    # Notify the server that the client is now in "training" status
+    response = requests.post(f'{server_url}/client_status', json={'client_id': client_id, 'status': 'training'})
+    print(f"Status update response: {response.status_code}")
+
     if not training_ready.is_set():
         training_ready.wait()
     
@@ -138,6 +151,7 @@ def start_training():
     training_thread.start()
     
     return jsonify({'message': 'Training started'}), 200
+
 
 
 previous_metrics = []
@@ -220,6 +234,31 @@ def reset_client():
 
     return jsonify({'message': 'Client state reset successfully and re-registered'}), 200
 
+@app.route('/shutdown', methods=['POST'])
+def shutdown():
+    logging.info("Shutdown signal received. Stopping client...")
+    shutdown_server()
+    os._exit(0)  # Forcefully terminate the client process immediately
+
+def shutdown_server():
+    logging.info("Shutting down Flask server...")
+    
+    # Use os._exit(0) to forcefully stop the server
+    os._exit(0)  # This forcefully exits the Flask server process
+    
+    # The following code won't be reached, but it's kept for completeness
+    # and to ensure any changes won't break the logic if os._exit(0) is removed.
+    func = request.environ.get('werkzeug.server.shutdown')
+    if func is not None:
+        try:
+            func()
+        except Exception as e:
+            logging.error(f"Error during Flask shutdown: {e}")
+    else:
+        logging.warning("Shutdown function not found or already deprecated.")
+    logging.info("Flask server shutdown complete.")
+
+
 
 if __name__ == '__main__':
     import argparse
@@ -239,7 +278,10 @@ if __name__ == '__main__':
 
     response = requests.post(f'{server_url}/client_ready', json={'client_id': client_id})
     print(response.json())
-    
-    print(f"Client running on http://{args.host}:{args.port}/")
-    app.run(debug=True,host=args.host, port=args.port)
 
+    print(f"Client running on http://{args.host}:{args.port}/")
+    try:
+        app.run(debug=True, host=args.host, port=args.port)
+    except KeyboardInterrupt:
+        shutdown_server()
+        os._exit(0)  # Ensure the program exits on KeyboardInterrupt

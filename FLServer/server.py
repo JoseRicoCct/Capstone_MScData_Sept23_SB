@@ -18,9 +18,10 @@ training_lock = threading.Lock()
 num_rounds = 0
 global_metrics = []
 cumulative_metrics = {'loss': 0, 'accuracy': 0, 'val_loss': 0, 'val_accuracy': 0}
+should_refresh = False  # Variable to track if the page should be refreshed
 
 def aggregate_models(client_updates):
-    global global_model, num_rounds, cumulative_metrics
+    global global_model, num_rounds, cumulative_metrics, should_refresh
     weight_sums = None
     num_clients = len(client_updates)
     
@@ -55,6 +56,8 @@ def aggregate_models(client_updates):
     for client in clients.values():
         client['status'] = 'ready'
 
+    should_refresh = True  # Trigger a refresh after training completes
+
 @app.route('/')
 def index():
     averaged_metrics = {metric: (cumulative_metrics[metric] / num_rounds if num_rounds > 0 else 0) for metric in cumulative_metrics}
@@ -62,12 +65,14 @@ def index():
 
 @app.route('/register', methods=['POST'])
 def register_client():
+    global should_refresh
     client_id = request.json['client_id']
     port = request.json['port']
     host = request.json.get('host', 'localhost')
-    clients[client_id] = {'status': 'registered', 'port': port, 'host': host, 'metrics': {}}
+    clients[client_id] = {'status': 'registered', 'port': port, 'host': host, 'metrics': {},'training_type': None}
     print(f"Client {client_id} registered on address http://{host}:{port}.")
     logging.info(f"Client {client_id} registered on address http://{host}:{port}.")
+    should_refresh = True  # Trigger a refresh after a client connects
     return jsonify({'message': 'Registered successfully'}), 200
 
 @app.route('/client_ready', methods=['POST'])
@@ -81,7 +86,6 @@ def client_ready():
         return jsonify({'message': 'Client not registered'}), 400
     
     return jsonify({'message': 'Client is ready'}), 200
-
 
 @app.route('/update', methods=['POST'])
 def update_model():
@@ -105,19 +109,24 @@ def update_model():
 
 @app.route('/start_training', methods=['POST'])
 def start_training():
-    dataset = request.json['dataset']
-    print(f"Starting training process for dataset: {dataset}")
-    logging.info(f"Starting training process for dataset: {dataset}")
+    data = request.json
+    dataset = data.get('dataset')
+    logging.info(f"Received request to start training with dataset: {dataset}")
+    
+    if not dataset:
+        return jsonify({'message': 'Dataset not provided'}), 400
     
     for client_id, info in clients.items():
+        clients[client_id]['training_type'] = dataset  # Update the training type if necessary
         port = info['port']
         response = requests.post(f'http://{info["host"]}:{port}/prepare_training', json={'dataset': dataset})
-        print(f"Requested {client_id} to prepare training, response: {response.status_code}")
         logging.info(f"Requested {client_id} to prepare training, response: {response.status_code}")
 
     threading.Thread(target=wait_and_start_clients, args=(dataset,)).start()
 
     return jsonify({'message': f'Training started for {dataset} setting!!'}), 200
+
+
 
 @app.route('/prepare_training', methods=['POST'])
 def prepare_training():
@@ -142,14 +151,42 @@ def wait_and_start_clients(dataset):
         response = requests.post(f'http://{info["host"]}:{port}/start_training', json={'dataset': dataset})
         logging.info(f"Requested {client_id} to start training, response: {response.status_code}")
 
+@app.route('/client_status', methods=['POST'])
+def update_client_status():
+    client_id = request.json['client_id']
+    status = request.json['status']
+
+    if client_id in clients:
+        clients[client_id]['status'] = status
+        logging.info(f"Client {client_id} status updated to {status}")
+        set_refresh()  # Trigger a refresh after status update
+    else:
+        logging.error(f"Client {client_id} not found for status update.")
+        return jsonify({'message': 'Client not found'}), 404
+    
+    return jsonify({'message': 'Client status updated successfully'}), 200
+
+
 @app.route('/debug/clients', methods=['GET'])
 def debug_clients():
     return jsonify(clients), 200
 
+@app.route('/should_refresh', methods=['GET'])
+def should_refresh():
+    global should_refresh
+    return jsonify({'should_refresh': should_refresh})
+
+def set_refresh():
+    global should_refresh
+    should_refresh = True
+
+def clear_refresh():
+    global should_refresh
+    should_refresh = False
 
 @app.route('/reset', methods=['POST'])
 def reset():
-    global clients, global_model, metrics, num_rounds, global_metrics, cumulative_metrics
+    global clients, global_model, metrics, num_rounds, global_metrics, cumulative_metrics, should_refresh
     for client_id, info in clients.items():
         try:
             port = info['port']
@@ -165,9 +202,35 @@ def reset():
     global_metrics = []
     cumulative_metrics = {'loss': 0, 'accuracy': 0, 'val_loss': 0, 'val_accuracy': 0}
     logging.info("Server state has been reset.")
+    should_refresh = True  # Trigger a refresh after reset
     return jsonify({'message': 'Server state reset successfully'}), 200
+
+@app.route('/shutdown', methods=['POST'])
+def shutdown():
+    # Notify all connected clients that the server is shutting down
+    for client_id, info in clients.items():
+        try:
+            port = info['port']
+            response = requests.post(f'http://{info["host"]}:{port}/shutdown')
+            logging.info(f"Notified {client_id} about server shutdown, response: {response.status_code}")
+        except Exception as e:
+            logging.error(f"Error notifying {client_id} about server shutdown: {e}")
+
+    # Gracefully shutdown the server
+    logging.info("Server is shutting down...")
+    
+    # Use os._exit(0) to forcefully stop the server
+    os._exit(0)  # This forcefully exits the Flask server process
+
+    # The following code won't be reached, but it's kept for completeness
+    # and to ensure any changes won't break the logic if os._exit(0) is removed.
+    func = request.environ.get('werkzeug.server.shutdown')
+    if func is not None:
+        func()
+    return jsonify({'message': 'Server shutting down...'})
+
+
 
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
-

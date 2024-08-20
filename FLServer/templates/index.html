@@ -16,54 +16,66 @@
         </div>
     </header>
     <div class="container">
-        <div class="grid-container">
+       
             <div class="connected-clients">
                 <h2>Connected Clients</h2>
-                <ul>
+                <ul id="client-list">
                     {% for client_id, info in clients.items() %}
-                        <li>{{ client_id }} (Address: http://{{ info.host }}:{{ info.port }}, Status: {{ info.status }})</li>
+                        <li id="client-{{ client_id }}">{{ client_id }} (Address: http://{{ info.host }}:{{ info.port }}, Status: {{ info.status }},Scenario: {{ info.training_type or 'Not selected' }})</li>
                     {% endfor %}
                 </ul>
             </div>
-            <div class="training-type">
-                <h2>Training Type</h2>
-                <div class="buttons-container">
-                    <div class="dropdown">
-                        <button class="dropbtn">Select Training</button>
-                        <div class="dropdown-content">
-                            <a href="#" onclick="startTraining('technological')">Technological</a>
-                            <a href="#" onclick="startTraining('medical')">Medical</a>
-                        </div>
+            
+            
+        
+        <div class="training-type">
+            <h2>FL Server Controls</h2>
+            <div class="buttons-container">
+                <div class="dropdown">
+                    <button class="dropbtn">Select Training</button>
+                    <div class="dropdown-content">
+                        <a href="#" onclick="startTraining('technological')">Technological</a>
+                        <a href="#" onclick="startTraining('medical')">Medical</a>
                     </div>
-                    <button class="refresh-button" onclick="refreshServer()">
-                        <i class="fas fa-sync-alt"></i> Refresh Server
-                    </button>
                 </div>
+                <button class="additional-round-button" onclick="performAdditionalRound()">
+                    <i class="fas fa-redo-alt"></i> Train More
+                </button>
+                <button class="shutdown-button" onclick="shutdownServer()">
+                    <i class="fas fa-power-off"></i> Shut Down Server
+                </button>
             </div>
         </div>
+        <br>
 
         <h2>Client Metrics</h2>
-        <ul>
+        <ul id="client-metrics">
             {% for client_id, info in clients.items() %}
-                <li>
-                    <strong>{{ client_id }}</strong>: 
-                    loss: {{ "%.4f"|format(info.metrics.get('loss', 0)) }} - 
+                <li id="client-metric-{{ client_id }}">
+                    <strong>{{ client_id }}</strong>:
                     accuracy: {{ "%.4f"|format(info.metrics.get('accuracy', 0)) }} - 
-                    val_loss: {{ "%.4f"|format(info.metrics.get('val_loss', 0)) }} - 
-                    val_accuracy: {{ "%.4f"|format(info.metrics.get('val_accuracy', 0)) }}
+                    loss: {{ "%.4f"|format(info.metrics.get('loss', 0)) }} -
+                    val_accuracy: {{ "%.4f"|format(info.metrics.get('val_accuracy', 0)) }} -
+                    val_loss: {{ "%.4f"|format(info.metrics.get('val_loss', 0)) }} 
                 </li>
             {% endfor %}
         </ul>
 
         <h2>Global Model Metrics</h2>
-        <p>Number of Training Rounds: {{ num_rounds }}</p>
-        <pre id="global-metrics">
-            {% if metrics %}
-                loss: {{ "%.4f"|format(metrics.get('loss', 0)) }} - accuracy: {{ "%.4f"|format(metrics.get('accuracy', 0)) }} - val_loss: {{ "%.4f"|format(metrics.get('val_loss', 0)) }} - val_accuracy: {{ "%.4f"|format(metrics.get('val_accuracy', 0)) }}
-            {% else %}
+        <p>Number of Training Rounds: <span id="training-rounds">{{ num_rounds }}</span></p>
+        <ul id="global-metrics">
+            <li>
+                {% if metrics %}
+                <strong>accuracy:</strong> {{ "%.4f"|format(metrics.get('accuracy', 0)) }} - 
+                <strong>loss:</strong> {{ "%.4f"|format(metrics.get('loss', 0)) }} - 
+                val_accuracy: {{ "%.4f"|format(metrics.get('val_accuracy', 0)) }} -
+                val_loss: {{ "%.4f"|format(metrics.get('val_loss', 0)) }}
+                {% else %}
                 No global model metrics available yet.
-            {% endif %}
-        </pre>
+                {% endif %}
+            </li>
+            
+        </ul>
     </div>
     <footer>
         <p>Developed with ❤️ by student sba23021</p>
