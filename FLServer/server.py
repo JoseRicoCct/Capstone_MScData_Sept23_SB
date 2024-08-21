@@ -60,6 +60,11 @@ def aggregate_models(client_updates):
 
 @app.route('/')
 def index():
+    if clients:
+        num_rounds = max(client.get('round_number', 0) for client in clients.values())
+    else:
+        num_rounds = 0
+
     averaged_metrics = {metric: (cumulative_metrics[metric] / num_rounds if num_rounds > 0 else 0) for metric in cumulative_metrics}
     return render_template('index.html', clients=clients, metrics=averaged_metrics, num_rounds=num_rounds)
 
@@ -92,10 +97,13 @@ def update_model():
     client_id = request.json['client_id']
     data = request.json['data']
     client_metrics = request.json['metrics']
+    round_number = request.json['round_number']  # Extract the round number
+
     clients[client_id]['data'] = data
     clients[client_id]['metrics'] = client_metrics
+    clients[client_id]['round_number'] = round_number  # Store the round number
     clients[client_id]['status'] = 'updated'
-    logging.info(f"Received update from {client_id}")
+    logging.info(f"Received update from {client_id} for round {round_number}")
     
     if all(client['status'] == 'updated' for client in clients.values()):
         aggregate_models(clients)
@@ -106,6 +114,7 @@ def update_model():
             logging.info(f"Sent updated model to {client_id}, response: {response.status_code}")
     
     return jsonify({'message': 'Update received'}), 200
+
 
 @app.route('/start_training', methods=['POST'])
 def start_training():
