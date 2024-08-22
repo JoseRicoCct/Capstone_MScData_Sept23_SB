@@ -21,7 +21,7 @@
                 <h2>Connected Clients</h2>
                 <ul id="client-list">
                     {% for client_id, info in clients.items() %}
-                        <li id="client-{{ client_id }}">{{ client_id }} (Address: http://{{ info.host }}:{{ info.port }}, Status: {{ info.status }},Scenario: {{ info.training_type or 'Not selected' }})</li>
+                        <li id="client-{{ client_id }}">{{ client_id }} (Address: http://{{ info.host }}:{{ info.port }} - Status: {{ info.status }} - Scenario: {{ info.training_type or 'Not selected' }})</li>
                     {% endfor %}
                 </ul>
             </div>
@@ -32,15 +32,20 @@
             <h2>FL Server Controls</h2>
             <div class="buttons-container">
                 <div class="dropdown">
-                    <button class="dropbtn">Select Training</button>
+                    <button class="dropbtn">Select Scenario</button>
                     <div class="dropdown-content">
-                        <a href="#" onclick="startTraining('technological')">Technological</a>
-                        <a href="#" onclick="startTraining('medical')">Medical</a>
+                        <a href="#" onclick="startTraining('technological_iid')">Technological IID</a>
+                        <a href="#" onclick="startTraining('technological_noniid')">Technological NonIID</a>
+                        <a href="#" onclick="startTraining('medical_iid')">Medical IID</a>
+                        <a href="#" onclick="startTraining('medical_noniid')">Medical NonIID</a>
                     </div>
-                </div>
+                </div>                
                 <button class="additional-round-button" onclick="performAdditionalRound()">
                     <i class="fas fa-redo-alt"></i> Train More
                 </button>
+                <button class="reset-server-button" onclick="resetServer()">
+                    <i class="fas fa-sync-alt"></i> Reset Server
+                </button>                
                 <button class="shutdown-button" onclick="shutdownServer()">
                     <i class="fas fa-power-off"></i> Shut Down Server
                 </button>

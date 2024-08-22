@@ -89,5 +89,27 @@ function performAdditionalRound() {
     }
 }
 
+function resetServer() {
+    fetch('/reset_server', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log("Server reset successfully.");
+            location.reload();  // Reload the page after reset
+        } else {
+            console.error("Failed to reset the server.");
+        }
+    })
+    .catch(error => {
+        console.error("Error resetting the server:", error);
+    });
+}
+
+
+
 
 

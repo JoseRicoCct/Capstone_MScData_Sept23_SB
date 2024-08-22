@@ -25,38 +25,48 @@ def aggregate_models(client_updates):
     weight_sums = None
     num_clients = len(client_updates)
     
-    metrics_sums = {'loss': 0, 'accuracy': 0, 'val_loss': 0, 'val_accuracy': 0}
+    # Initialize metric sums to 0 for this round
+    round_metrics_sums = {'loss': 0, 'accuracy': 0, 'val_loss': 0, 'val_accuracy': 0}
     
     for client_id, update in client_updates.items():
         weights = update['data']
         client_metrics = update['metrics']
         
+        # Aggregate weights
         if weight_sums is None:
             weight_sums = [np.array(w) for w in weights]
         else:
             weight_sums = [w_sum + np.array(w) for w_sum, w in zip(weight_sums, weights)]
         
-        for metric in metrics_sums:
-            metrics_sums[metric] += client_metrics[metric]
+        # Aggregate metrics for this round
+        for metric in round_metrics_sums:
+            round_metrics_sums[metric] += client_metrics[metric]
     
+    # Average the weights
     average_weights = [w_sum / num_clients for w_sum in weight_sums]
     global_model = average_weights
-    for metric in metrics_sums:
-        metrics[metric] = metrics_sums[metric] / num_clients
 
+    # Average the round metrics correctly
+    round_averaged_metrics = {metric: round_metrics_sums[metric] / num_clients for metric in round_metrics_sums}
+    
+    # Accumulate the averaged metrics for this round into cumulative metrics
     for metric in cumulative_metrics:
-        cumulative_metrics[metric] += metrics[metric]
+        cumulative_metrics[metric] += round_averaged_metrics[metric]
     
     num_rounds += 1
-
-    average_metrics = {metric: cumulative_metrics[metric] / num_rounds for metric in cumulative_metrics} 
+    
+    # Calculate the overall average metrics across all rounds
+    overall_averaged_metrics = {metric: cumulative_metrics[metric] / num_rounds for metric in cumulative_metrics}
+    
     logging.info(f"Cumulative metrics after {num_rounds} rounds: {cumulative_metrics}")
-    logging.info(f"Average metrics after {num_rounds} rounds: {average_metrics}")
+    logging.info(f"Average metrics after {num_rounds} rounds: {overall_averaged_metrics}")
 
     for client in clients.values():
         client['status'] = 'ready'
 
     should_refresh = True  # Trigger a refresh after training completes
+
+
 
 @app.route('/')
 def index():
@@ -133,7 +143,8 @@ def start_training():
 
     threading.Thread(target=wait_and_start_clients, args=(dataset,)).start()
 
-    return jsonify({'message': f'Training started for {dataset} setting!!'}), 200
+    return jsonify({'message': f'Training started for {dataset} scenario!'}), 200
+
 
 
 
@@ -141,6 +152,7 @@ def start_training():
 def prepare_training():
     client_id = request.json.get('client_id')
     dataset = request.json.get('dataset')
+    
     if client_id not in clients:
         logging.error(f"Client {client_id} not found")
         return jsonify({'message': 'Client not found'}), 404
@@ -149,6 +161,7 @@ def prepare_training():
     logging.info(f"Server preparing client {client_id} for dataset {dataset}")
 
     return jsonify({'message': f'Client {client_id} preparation for {dataset} dataset completed'}), 200
+
 
 def wait_and_start_clients(dataset):
     logging.info("Waiting for all clients to be ready...")
@@ -193,9 +206,20 @@ def clear_refresh():
     global should_refresh
     should_refresh = False
 
-@app.route('/reset', methods=['POST'])
+@app.route('/reset_server', methods=['POST'])
 def reset():
     global clients, global_model, metrics, num_rounds, global_metrics, cumulative_metrics, should_refresh
+    print("Resetting server state...")
+    logging.info("Resetting server state...")
+
+    # Clear accumulated metrics and round counters
+    global_model = None
+    metrics = {}
+    num_rounds = 0
+    global_metrics = []
+    cumulative_metrics = {'loss': 0, 'accuracy': 0, 'val_loss': 0, 'val_accuracy': 0}
+
+    # Notify clients to reset their state
     for client_id, info in clients.items():
         try:
             port = info['port']
@@ -204,15 +228,14 @@ def reset():
         except Exception as e:
             logging.error(f"Error notifying {client_id} to reset: {e}")
 
-    clients = {}
-    global_model = None
-    metrics = {}
-    num_rounds = 0
-    global_metrics = []
-    cumulative_metrics = {'loss': 0, 'accuracy': 0, 'val_loss': 0, 'val_accuracy': 0}
-    logging.info("Server state has been reset.")
     should_refresh = True  # Trigger a refresh after reset
+
     return jsonify({'message': 'Server state reset successfully'}), 200
+
+@app.route('/test_route', methods=['GET'])
+def test_route():
+    return "Test route works!"
+
 
 @app.route('/shutdown', methods=['POST'])
 def shutdown():
