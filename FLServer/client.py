@@ -25,7 +25,7 @@ import warnings
 
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.losses import CategoricalCrossentropy
-from tensorflow.keras.callbacks import EarlyStopping
+
 
 
 
@@ -201,8 +201,6 @@ def start_training():
 
 previous_metrics = []
 
-early_stopping = EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=True)
-
 
 def run_training(dataset):
     global previous_metrics, training_ready, round_counter
@@ -212,14 +210,14 @@ def run_training(dataset):
     try:
         # Model should already be compiled when created in prepare_training
         if 'technological' in dataset:
-            history = model.fit(X_train, y_train, validation_data=(X_val, y_val), epochs=100, batch_size=512, verbose=2, callbacks=[early_stopping])
+            history = model.fit(X_train, y_train, validation_data=(X_val, y_val), epochs=100, batch_size=512, verbose=2)
         elif 'medical' in dataset:
             history = model.fit(train_generator, 
                                 steps_per_epoch=train_generator.samples // train_generator.batch_size, 
                                 epochs=5, 
                                 validation_data=test_generator, 
-                                validation_steps=test_generator.samples // test_generator.batch_size,
-                                callbacks=[early_stopping])
+                                validation_steps=test_generator.samples // test_generator.batch_size
+                                )
         else:
             raise ValueError(f"Unknown dataset type: {dataset}")
     
@@ -287,7 +285,7 @@ def receive_model():
 
     if len(previous_metrics) > 1:
         avg_metrics = {key: np.mean([m[key] for m in previous_metrics]) for key in previous_metrics[0].keys()}
-        logging.info(f"Average metrics after {len(previous_metrics)} rounds: {avg_metrics}")
+        logging.info(f"Average metrics after {round_counter} rounds: {avg_metrics}")
 
     if not training_ready.is_set():
         training_ready.set()
@@ -338,29 +336,17 @@ def reset_client():
     return jsonify({'message': 'Client reset and re-registered successfully'}), 200
 
 
+# Adjustments in client.py (focus on the shutdown function)
 @app.route('/shutdown', methods=['POST'])
 def shutdown():
     logging.info("Shutdown signal received. Stopping client...")
     shutdown_server()
-    os._exit(0)  # Forcefully terminate the client process immediately
+
 
 def shutdown_server():
     logging.info("Shutting down Flask server...")
-    
-    # Use os._exit(0) to forcefully stop the server
-    os._exit(0)  # This forcefully exits the Flask server process
-    
-    # The following code won't be reached, but it's kept for completeness
-    # and to ensure any changes won't break the logic if os._exit(0) is removed.
-    func = request.environ.get('werkzeug.server.shutdown')
-    if func is not None:
-        try:
-            func()
-        except Exception as e:
-            logging.error(f"Error during Flask shutdown: {e}")
-    else:
-        logging.warning("Shutdown function not found or already deprecated.")
-    logging.info("Flask server shutdown complete.")
+    # Use os._exit(0) to forcefully stop the server immediately
+    os._exit(0)
 
 if __name__ == '__main__':
     import argparse

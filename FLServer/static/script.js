@@ -16,10 +16,29 @@ function startTraining(dataset) {
     .then(response => response.json())
     .then(data => {
         console.log(data.message); // Logs the message instead of showing a popup
-        setTimeout(() => location.reload(), 2000); // Refresh after a delay
+        // Start waiting for the training to complete
+        waitForTrainingToComplete();
     });
 }
 
+// Function to wait for the server to signal a page refresh
+function waitForTrainingToComplete() {
+    const checkInterval = setInterval(() => {
+        fetch('/should_refresh')
+            .then(response => response.json())
+            .then(data => {
+                if (data.should_refresh) {
+                    console.log("Server signaled to refresh the page.");
+                    clearInterval(checkInterval);  // Stop checking after the refresh signal
+                    location.reload();  // Refresh the page
+                }
+            })
+            .catch(() => {
+                console.error("Server unreachable or down.");
+                clearInterval(checkInterval);  // Stop checking if the server is unreachable
+            });
+    }, 3000);  // Check every 3 seconds
+}
 
 function shutdownServer() {
     fetch('/shutdown', {
@@ -29,40 +48,15 @@ function shutdownServer() {
         }
     })
     .then(response => {
-        // Instead of showing an alert, we just reload the page
+        // Force a reload after the shutdown is initiated
         setTimeout(() => {
-            location.reload();  // This will attempt to reload the page, which will go blank because the server is down
-        }, 1000);  // Slight delay to allow server shutdown to begin
+            location.reload();  // This will attempt to reload the page, which should fail when the server is down
+        }, 2000);  // Slight delay to allow the server shutdown to complete
+    })
+    .catch(() => {
+        // If there's an error (e.g., server is down before we reload), also try to reload
+        location.reload();
     });
-}
-
-// Poll the server every 5 seconds to see if the page needs to be refreshed
-setInterval(function() {
-    fetch('/should_refresh')
-        .then(response => response.json())
-        .then(data => {
-            if (data.should_refresh) {
-                location.reload();
-            }
-        })
-        .catch(() => {
-            // If the server is unreachable, automatically refresh the page
-            location.reload();
-        });
-}, 5000);
-
-function checkServerStatus() {
-    fetch('/')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Server not available');
-            }
-        })
-        .catch(() => {
-            // If the server is down, reload the page to show the "unreachable" state
-            alert("Server is down.");
-            location.reload();
-        });
 }
 
 function performAdditionalRound() {
@@ -81,7 +75,8 @@ function performAdditionalRound() {
         .then(response => response.json())
         .then(data => {
             console.log(data.message);
-            setTimeout(() => location.reload(), 2000); // Refresh after a delay
+            // Start waiting for the training to complete
+            waitForTrainingToComplete();
         });
     } else {
         console.error("Training type not selected.");
@@ -109,7 +104,5 @@ function resetServer() {
     });
 }
 
-
-
-
-
+// Start listening for refresh signal immediately upon loading the page
+waitForTrainingToComplete();
