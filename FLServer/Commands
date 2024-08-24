@@ -1,3 +1,8 @@
+#### Combining commands ###
+cd ~/Desktop/Capstone_MScData_Sept23_SB/FLServer && source FLServerEnv/bin/activate
+
+
+
 cd ~/Desktop/FLServer
 
 
@@ -5,10 +10,12 @@ cd ~/Desktop/FLServer
 
 python3 -m venv FLServerEnv
 
+### Activate/Deactivate the enviroment ####
 source FLServerEnv/bin/activate
-pip install -r requirements.txt
 deactivate
 
+### Install the requirements ####
+pip install -r requirements.txt
 
 ### Run the server ###
 python3 server.py
