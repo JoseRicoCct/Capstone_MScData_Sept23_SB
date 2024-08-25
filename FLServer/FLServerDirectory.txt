@@ -1,0 +1,41 @@
+FLServer/
+├── JNs/
+│   ├── MedicalDataGeneration.ipynb
+│   └── TechnologicalDataGeneration.ipynb
+├── scenarios/
+│   ├── medical/
+│   │   ├── client1/
+│   │   │   ├── IID/
+│   │   │   │   ├── train/
+│   │   │   │   └── test/
+│   │   │   │       ├── Lung/
+│   │   │   │       └── NotLung/
+│   │   │   └── nonIID/
+│   │   │       ├── train/
+│   │   │       └── test/
+│   │   │           ├── Lung/
+│   │   │           └── NotLung/
+│   │   ├── client2/
+│   │   ├── client3/
+│   │   ├── client4/
+│   │   └── client5/
+│   ├── technological/
+│   │   ├── client1/
+│   │   │   ├── data1_iid.csv
+│   │   │   └── data1_nonIID.csv
+│   │   ├── client2/
+│   │   ├── client3/
+│   │   ├── client4/
+│   │   └── client5/
+├── static/
+│   ├── cct_logo.png
+│   ├── script.js
+│   └── styles.css
+├── templates/
+│   └── index.html
+├── client.py
+├── server.py
+└── requirements.txt
+
+
+
