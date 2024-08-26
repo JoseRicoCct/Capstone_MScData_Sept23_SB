@@ -159,8 +159,8 @@ def prepare_training():
     data = request.get_json()
     dataset = data['dataset']
     global model, X_train, X_val, y_train, y_val, train_generator, test_generator
-    logging.info(f"Client {client_id} starting preparation for dataset {dataset}")
-    print(f"Client {client_id} starting preparation for dataset {dataset}")
+    logging.info(f"{client_id} starting preparation for dataset {dataset}")
+   
 
     if 'technological' in dataset:
         X_train, X_val, y_train, y_val = load_data(client_id, dataset)
@@ -171,8 +171,7 @@ def prepare_training():
 
     model = create_simple_model(dataset)
     compile_model(dataset)
-    logging.info(f"Client {client_id} completed preparation for dataset {dataset}")
-    print(f"Client {client_id} completed preparation for dataset {dataset}")
+    logging.info(f"{client_id} completed preparation for dataset {dataset}")
     training_ready.set()
 
     return jsonify({'message': 'Training preparation completed'}), 200
@@ -184,8 +183,7 @@ def prepare_training():
 def start_training():
     data = request.get_json()
     dataset = data['dataset']
-    logging.info(f"Client {client_id} received start training signal for dataset {dataset}")
-    print(f"Client {client_id} received start training signal for dataset {dataset}")
+    logging.info(f"{client_id} received start training signal for dataset {dataset}")
     
     # Notify the server that the client is now in "training" status
     response = requests.post(f'{server_url}/client_status', json={'client_id': client_id, 'status': 'training'})
@@ -205,7 +203,7 @@ previous_metrics = []
 def run_training(dataset):
     global previous_metrics, training_ready, round_counter
 
-    logging.info(f"Client {client_id} starting actual training for round {round_counter + 1} and dataset {dataset}")
+    logging.info(f"{client_id} starting actual training for round {round_counter + 1} and dataset {dataset}")
 
     try:
         # Model should already be compiled when created in prepare_training
@@ -230,14 +228,13 @@ def run_training(dataset):
 
         round_counter += 1  # Increment the round counter after training completes
 
-        logging.info(f"Client {client_id} finished training for round {round_counter} with metrics: {final_metrics}")
+        logging.info(f"{client_id} finished training for round {round_counter} with metrics: {final_metrics}")
         previous_metrics.append(final_metrics)
         send_update(model, client_id, server_url, final_metrics, round_counter)
 
         # Clear the training_ready event only after sending the update
         training_ready.clear()
 
-        logging.info(f"Round {round_counter} completed and ready for the next round.")
 
     except ValueError as e:
         logging.error(e)
@@ -272,8 +269,6 @@ def send_update(model, client_id, server_url, metrics, round_counter):
     print(response.json())
 
 
-
-
 @app.route('/receive_model', methods=['POST'])
 def receive_model():
     data = request.get_json()
@@ -281,7 +276,8 @@ def receive_model():
     global model, previous_metrics
 
     model.set_weights([np.array(w) for w in weights])
-    logging.info(f"Client {client_id} received updated global model.")
+    logging.info(f"global model has been aggregated.")
+    logging.info(f"{client_id} has received weights, local model updated.")
 
     if len(previous_metrics) > 1:
         avg_metrics = {key: np.mean([m[key] for m in previous_metrics]) for key in previous_metrics[0].keys()}
@@ -289,7 +285,8 @@ def receive_model():
 
     if not training_ready.is_set():
         training_ready.set()
-        logging.info(f"Client {client_id} ready for the next round of training.")
+        logging.info(f"{client_id} ready for the next round of training.")
+        logging.info(f"round {round_counter} completed.")
     
     return jsonify({'message': 'Model updated successfully'}), 200
 
@@ -297,9 +294,7 @@ def receive_model():
 @app.route('/reset', methods=['POST'])
 def reset_client():
     global model, X_train, X_val, y_train, y_val, train_generator, test_generator, training_ready, round_counter, current_dataset
-
-    print(f"Client {client_id} resetting state...")
-    logging.info(f"Client {client_id} resetting state...")
+    logging.info(f"{client_id} resetting state...")
 
     # Ensure current_dataset is defined, if not set a default value
     if 'current_dataset' not in globals() or current_dataset is None:
@@ -326,12 +321,12 @@ def reset_client():
     # Ensure the client re-registers with the server after reset
     register_data = {'client_id': client_id, 'port': args.port, 'host': args.host}
     response = requests.post(f'{server_url}/register', json=register_data)
-    logging.info(f"Client {client_id} re-registered with the server after reset. Response: {response.status_code}")
+    logging.info(f"{client_id} re-registered with the server after reset. Response: {response.status_code}")
 
     # Notify the server that the client is ready again
     prepare_training_data = {'client_id': client_id, 'dataset': current_dataset}
     response = requests.post(f'{server_url}/prepare_training', json=prepare_training_data)
-    logging.info(f"Client {client_id} started preparation for dataset {current_dataset} after reset. Response: {response.status_code}")
+    logging.info(f"{client_id} started preparation for dataset {current_dataset} after reset. Response: {response.status_code}")
 
     return jsonify({'message': 'Client reset and re-registered successfully'}), 200
 
