@@ -15,18 +15,16 @@
             </div>
         </div>
     </header>
+    
     <div class="container">
-       
-            <div class="connected-clients">
-                <h2>Connected Clients</h2>
-                <ul id="client-list">
-                    {% for client_id, info in clients.items() %}
-                        <li id="client-{{ client_id }}">{{ client_id }} (Address: http://{{ info.host }}:{{ info.port }} - Status: {{ info.status }} - Scenario: {{ info.training_type or 'Not selected' }})</li>
-                    {% endfor %}
-                </ul>
-            </div>
-            
-            
+        <div class="connected-clients">
+            <h2>Connected Clients</h2>
+            <ul id="client-list">
+                {% for client_id, info in clients.items() %}
+                    <li id="client-{{ client_id }}">{{ client_id }} (Address: http://{{ info.host }}:{{ info.port }} - Status: {{ info.status }} - Scenario: {{ info.training_type or 'Not selected' }})</li>
+                {% endfor %}
+            </ul>
+        </div>
         
         <div class="training-type">
             <h2>FL Server Controls</h2>
@@ -82,6 +80,8 @@
             
         </ul>
     </div>
+
+    <!-- Footer that sticks to the bottom of the page -->
     <footer>
         <p>Developed with ❤️ by student sba23021</p>
     </footer>

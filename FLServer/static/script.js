@@ -6,7 +6,12 @@ function startTraining(dataset) {
     localStorage.setItem('trainingType', dataset);  // Save to localStorage
     console.log("Training type set to:", selectedTrainingType);  // Log to confirm
 
-    fetch('/start_training', {
+    let endpoint = '/start_training';  // Default endpoint for training
+    if (dataset.includes('medical')) {  // Check if the dataset is medical-related
+        endpoint = '/start_medical_training';  // Use the medical training endpoint
+    }
+
+    fetch(endpoint, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -37,7 +42,7 @@ function waitForTrainingToComplete() {
                 console.error("Server unreachable or down.");
                 clearInterval(checkInterval);  // Stop checking if the server is unreachable
             });
-    }, 3000);  // Check every 3 seconds
+    },3000);  // Check every 0.01 seconds
 }
 
 function shutdownServer() {

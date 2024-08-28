@@ -1,149 +1,189 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    color: #333333;  /* Updated to match the logo's text color */
+/* General Body and HTML Styling */
+html, body {
+    height: 100%; /* Ensuring the body and HTML are at least 100% of the viewport height */
     margin: 0;
     padding: 0;
+    font-family: Arial, sans-serif; /* Use a clean, readable font */
+    background-color: #f0f0f0; /* Soft background color for the page */
+    color: #333333; /* Text color updated to match the logo's text color */
+    display: flex;
+    flex-direction: column; /* Make the body a flex container */
 }
 
+/* Header Styling */
 header {
-    background-color: #fff;
-    border-bottom: 1px solid #eaeaea;
-    padding: 10px 20px;
+    background-color: #fff; /* White background for the header */
+    border-bottom: 1px solid #eaeaea; /* Subtle border under the header */
+    padding: 10px 50px; /* Padding around the header content */
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center; /* Center the header content */
 }
 
+/* Add left padding or margin to move the header to the right */
 .header-container {
     display: flex;
     align-items: center;
+    justify-content: center; /* Center the content */
     width: 100%;
+    
 }
 
+
+/* Logo Styling */
 .logo {
-    height: 90px;  /* Adjusting logo size */
-    margin-right: 15px;
+    height: 90px; /* Adjusting logo size */
+    margin-right: 15px; /* Space between logo and title */
 }
 
+/* Title Container Styling */
 .title-container {
     flex: 1;
-    text-align: center;
+    text-align: left; /* Align title to the left */
+    padding-left: 20px; /* Adjust padding to match the content alignment */
 }
 
+/* Main Content Container Styling */
 .container {
-    margin: 20px auto;
+    flex: 1; /* Allow the container to grow and fill available space */
+    margin: 20px auto; /* Center the container horizontally */
     padding: 20px;
-    max-width: 1200px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 1200px; /* Limit the container width */
+    background-color: white; /* White background for contrast */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
+/* Heading Styling */
+h1 {
+    padding-left: 50px; /* Adjust this value to move the header further to the right */
+}
+
+
+/* Heading Styling */
 h1, h2 {
-    color: #333333;  /* Updated to match the logo's text color */
+    color: #333333; /* Match text color with the logo */
 }
 
+/* Subheading Margin Adjustment */
 h2 {
     margin-top: 0;
 }
 
+/* Unordered List Styling */
 ul {
-    list-style-type: none;
+    list-style-type: none; /* Remove default list bullets */
     padding: 0;
 }
 
+/* List Item Styling */
 li {
-    background-color: #e9e9e9;
-    margin: 5px 0;
+    background-color: #e9e9e9; /* Light background for list items */
+    margin: 5px 0; /* Space between list items */
     padding: 10px;
-    border-radius: 4px;
+    border-radius: 4px; /* Rounded corners for list items */
 }
 
+/* Button and Dropdown Button Styling */
 button, .dropbtn {
-    background-color: #333333;  /* Updated to match the logo's text color */
+    background-color: #333333; /* Match button color with the logo */
     color: white;
     padding: 10px 20px;
     border: none;
-    border-radius: 4px;
+    border-radius: 4px; /* Rounded corners for buttons */
     cursor: pointer;
-    margin: 10px 5px;
+    margin: 10px 5px; /* Space around buttons */
 }
 
+/* Button Hover Effect */
 button:hover, .dropbtn:hover {
-    background-color: #222222;  /* Slightly darker shade for hover effect */
+    background-color: #222222; /* Slightly darker shade for hover effect */
 }
 
+/* Dropdown Menu Styling */
 .dropdown {
     position: relative;
     display: inline-block;
 }
 
+/* Dropdown Content Styling */
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    z-index: 1;
+    background-color: #f9f9f9; /* Light background for dropdown */
+    min-width: 160px; /* Minimum width for dropdown menu */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    z-index: 1; /* Making sure dropdown appears on top */
 }
 
+/* Dropdown Links Styling */
 .dropdown-content a {
     color: black;
     padding: 12px 16px;
-    text-decoration: none;
+    text-decoration: none; /* Remove underline from links */
     display: block;
 }
 
+/* Dropdown Links Hover Effect */
 .dropdown-content a:hover {
-    background-color: #f1f1f1;
+    background-color: #f1f1f1; /* Lighten background on hover */
 }
 
+/* Show Dropdown on Hover */
 .dropdown:hover .dropdown-content {
     display: block;
 }
 
+/* Grid Layout for Main Content */
 .grid-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    grid-template-columns: 1fr 1fr; /* Two equal-width columns */
+    gap: 20px; /* Space between grid items */
 }
 
+/* Connected Clients Section in Grid */
 .connected-clients {
-    grid-column: 1;
+    grid-column: 1; /* Position in the first column */
 }
 
+/* Training Type Section in Grid */
 .training-type {
-    grid-column: 2;
+    grid-column: 2; /* Position in the second column */
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: flex-start; /* Align items to the start */
 }
 
+/* Button Container Styling */
 .buttons-container {
     display: flex;
     align-items: center;
 }
 
+/* Refresh Button Styling */
 .refresh-button {
     display: flex;
     align-items: center;
 }
 
+/* Icon in Refresh Button */
 .refresh-button i {
-    margin-right: 5px;
+    margin-right: 5px; /* Space between icon and text */
 }
 
+/* Styling for Preformatted Text Blocks */
 pre {
-    background-color: #e9e9e9;
+    background-color: #e9e9e9; /* Match background with list items */
     padding: 10px;
-    border-radius: 4px;
-    overflow-x: auto;
+    border-radius: 4px; /* Rounded corners */
+    overflow-x: auto; /* Enable horizontal scrolling */
 }
 
+/* Footer Styling */
 footer {
-    text-align: center;
+    text-align: center; /* Center the footer text */
     padding: 10px;
-    background-color: #fff;
-    border-top: 1px solid #eaeaea;
+    background-color: #fff; /* Match footer background with header */
+    border-top: 1px solid #eaeaea; /* Subtle border on top */
+    margin-top: auto; /* Push the footer to the bottom of the page */
 }
