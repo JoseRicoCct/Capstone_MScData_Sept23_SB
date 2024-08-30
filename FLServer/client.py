@@ -32,7 +32,8 @@ warnings.filterwarnings("ignore", category=UserWarning)
 # Initializing the Flask web app
 app = Flask(__name__)
 
-# 1. Load and preprocess data for the specified client and scenario
+# 1. Loads and preprocesses data (technological scenario) based on the client ID and 
+# scenario type. It returns training and validation splits after scaling the features
 def load_data(client_id, scenario):
     file_paths = {
         'technological_iid': {
@@ -63,7 +64,9 @@ def load_data(client_id, scenario):
     # Split data into training and validation sets
     return train_test_split(X, y, test_size=0.2, random_state=42)
 
-# 2. Load and preprocess IID medical image data for the specified client
+# 2. Loads and preprocesses IID (independent and identically distributed) 
+# medical image data for the specified client. It applies data augmentation
+# and returns data generators for training and testing
 def load_medical_data_iid(client_id):
     base_dir = f'scenarios/medical/{client_id}/IID'
     train_dir = os.path.join(base_dir, 'train')
@@ -96,7 +99,8 @@ def load_medical_data_iid(client_id):
     
     return train_generator, test_generator
 
-# 3. Load and preprocess non-IID medical image data for the specified client
+# 3. Load and preprocess non-IID medical image data for the specified client. It applies data
+# augmentation and returns data generators for training and testing
 def load_medical_data_non_iid(client_id):
     base_dir = f'scenarios/medical/{client_id}/nonIID'
     train_dir = os.path.join(base_dir, 'train')
@@ -129,8 +133,10 @@ def load_medical_data_non_iid(client_id):
     
     return train_generator, test_generator
 
-# 4. Create a simple neural network model based on the dataset type
-def create_simple_model(dataset):
+# 4. Creates a simple neural network model based on the dataset type (either technological or
+# medical). The structure differs depending on whether it's processing structured data
+# (technological) or images (medical)
+def tech_med_models(dataset):
     global model
     model = Sequential()
     
@@ -154,10 +160,12 @@ def create_simple_model(dataset):
     return model
 
 # Initialize global variables
-model = create_simple_model('technological')
+model = tech_med_models('technological')
 training_ready = threading.Event()  # Event to signal readiness for training
 round_counter = 0  # Counter for training rounds
 
+# 5. Handles the preparation for training based on the selected dataset. This involves loading
+# the data, creating the model, and compiling it. It sets a flag when the client is ready for training
 @app.route('/prepare_training', methods=['POST'])
 def prepare_training():
     data = request.get_json()
@@ -175,7 +183,7 @@ def prepare_training():
             train_generator, test_generator = load_medical_data_non_iid(client_id)
 
         # Create and compile the model
-        model = create_simple_model(dataset)
+        model = tech_med_models(dataset)
         compile_model(dataset)
         logging.info(f"{client_id} completed preparation for dataset {dataset}")
         training_ready.set()  # Signal that training preparation is complete
@@ -186,6 +194,8 @@ def prepare_training():
 
     return jsonify({'message': 'Training preparation completed'}), 200
 
+# 6. Initiates the training process after receiving a start signal from the server. It notifies the
+# server that the client is in the "training" state and starts training in a separate thread
 @app.route('/start_training', methods=['POST'])
 def start_training():
     data = request.get_json()
@@ -213,7 +223,8 @@ def start_training():
 
 previous_metrics = []  # Store metrics from previous training rounds
 
-# 7. Perform the actual training of the model
+# 7. Performs the actual training of the model based on the dataset type. After training is
+# complete, it sends the updated model weights and metrics to the server
 def run_training(dataset):
     global previous_metrics, training_ready, round_counter
 
@@ -252,7 +263,8 @@ def run_training(dataset):
     finally:
         training_ready.clear()  # Ensure training_ready is cleared at the end of training
 
-# 8. Compile the model with the appropriate loss function and optimizer
+# 8. Compiles the model with the appropriate loss function and optimizer based on whether the
+# dataset is for technological (binary classification) or medical (multi-class classification) scenarios
 def compile_model(dataset):
     if 'technological' in dataset:
         model.compile(loss="binary_crossentropy", optimizer=Adam(learning_rate=0.0001), metrics=['accuracy'])  # Compile for binary classification
@@ -261,7 +273,8 @@ def compile_model(dataset):
                       loss=CategoricalCrossentropy(),  
                       metrics=['accuracy'])
 
-# 9. Send the updated model weights and metrics to the server
+# 9. Sends the updated model weights and training metrics to the server after completing
+#  a round of training
 def send_update(model, client_id, server_url, metrics, round_counter):
     weights = [w.tolist() for w in model.get_weights()]  # Convert model weights to a list
     update_data = {
@@ -273,7 +286,8 @@ def send_update(model, client_id, server_url, metrics, round_counter):
     response = requests.post(f'{server_url}/update', json=update_data)  # Send the data to the server
     print(response.json())
 
-# 10. Receive updated model weights from the server and update the local model
+# 10. Receives updated model weights from the server and updates the local model.
+#  It signals readiness for the next round of training
 @app.route('/receive_model', methods=['POST'])
 def receive_model():
     data = request.get_json()
@@ -294,7 +308,8 @@ def receive_model():
     
     return jsonify({'message': 'Model updated successfully'}), 200
 
-# 11. Reset the client state, re-register with the server, and prepare for training
+# 11. Resets the client’s state, re-registers with the server, and prepares
+#  the client for a new training scenario
 @app.route('/reset', methods=['POST'])
 def reset_client():
     global model, X_train, X_val, y_train, y_val, train_generator, test_generator, training_ready, round_counter, current_dataset
@@ -319,7 +334,7 @@ def reset_client():
         train_generator, test_generator = load_medical_data_non_iid(client_id)
     
     # Recreate the model
-    model = create_simple_model(current_dataset)
+    model = tech_med_models(current_dataset)
     compile_model(current_dataset)
 
     # Ensure the client re-registers with the server after reset

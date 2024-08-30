@@ -23,8 +23,10 @@ cumulative_metrics = {'loss': 0, 'accuracy': 0, 'val_loss': 0, 'val_accuracy': 0
 should_refresh = False
 client_updates_status = {} # Declaring a dictionary to track the clients' updates per round
 
+# 1. Registers a client with the server, storing their details (ID, port, host) in a dictionary
+#  Triggers a refresh if all expected clients (5) are registered.
 @app.route('/register', methods=['POST'])
-def register_client(): #1
+def register_client(): 
     global should_refresh
     client_id = request.json['client_id']  # Get the client ID from the request
     port = request.json['port']            # Get the port the client is listening on
@@ -39,8 +41,9 @@ def register_client(): #1
 
     return jsonify({'message': 'Registered successfully'}), 200  # Return a success response to the client
 
+# 2. Updates the status of a registered client to 'ready' when the client notifies the server that it is ready
 @app.route('/client_ready', methods=['POST'])
-def client_ready(): #2
+def client_ready(): 
     client_id = request.json['client_id']  # Get the client ID from the request
     if client_id in clients:               # Check if the client is registered
         clients[client_id]['status'] = 'ready'  # Update the client's status to 'ready'
@@ -51,8 +54,9 @@ def client_ready(): #2
     
     return jsonify({'message': 'Client is ready'}), 200  # Return a success response
 
+# 3. Prepares a specific client for training by setting its status to 'ready' and logging the preparation
 @app.route('/prepare_training', methods=['POST'])
-def prepare_training(): #3
+def prepare_training(): 
     client_id = request.json.get('client_id')  # Get the client ID from the request
     dataset = request.json.get('dataset')      # Get the dataset to be used for training
     
@@ -65,7 +69,8 @@ def prepare_training(): #3
 
     return jsonify({'message': f'Client {client_id} preparation for {dataset} dataset completed'}), 200
 
-def wait_and_start_clients(dataset): #4
+# 4. Waits until all clients are ready and then sends a request to each client to start training with the specified dataset
+def wait_and_start_clients(dataset): 
     logging.info("Waiting for all clients to be ready...")
     while not all(client['status'] == 'ready' for client in clients.values()):
         time.sleep(1)  # Poll every second to check if all clients are ready
@@ -76,6 +81,8 @@ def wait_and_start_clients(dataset): #4
         # Send a request to the client to start training with the specified dataset
         logging.info(f"Requested {client_id} to start training, response: {response.status_code}")
 
+# 5. Initiates the training process by preparing all clients and starting training once they are ready.
+# It creates a thread to handle training when all clients are ready
 @app.route('/start_training', methods=['POST'])
 def start_training(): #5
     data = request.json
@@ -96,7 +103,62 @@ def start_training(): #5
 
     return jsonify({'message': f'Training started for {dataset} scenario!'}), 200
 
-# 6
+# 6. Handles communication for the medical training scenario, ensuring that all clients are
+# ready before starting the training. Retries if communication fails, and logs the outcome
+def handle_medical_training_communication(round_number, dataset):
+    logging.info(f"Handling communication for medical training scenario for round {round_number}.")
+
+    client_status = {client_id: False for client_id in clients.keys()}  # Track the status of each client
+    max_retries = 5  # Maximum number of retries for each client
+    retry_delay = 5  # Delay in seconds between retries
+
+    for client_id, info in clients.items():
+        port = info['port']
+        for attempt in range(max_retries):
+            try:
+                response = requests.post(f'http://{info["host"]}:{port}/prepare_training', json={'dataset': dataset})
+                if response.status_code == 200:
+                    client_status[client_id] = True
+                    logging.info(f"Client {client_id} successfully prepared for training.")
+                    break
+                else:
+                    logging.warning(f"Client {client_id} failed to prepare on attempt {attempt + 1}. Retrying...")
+            except requests.RequestException as e:
+                logging.error(f"Error communicating with client {client_id}: {e}")
+            time.sleep(retry_delay)  # Wait before retrying
+
+    # Check if all clients are ready
+    if all(client_status.values()):
+        logging.info("All clients are ready. Proceeding with training.")
+        wait_and_start_clients(dataset)
+    else:
+        logging.error("Not all clients were ready after maximum retries. Aborting round.")
+        return False  # Indicate failure
+
+    return True  # Indicate success
+
+# 7. Starts the medical training process by calling handle_medical_training_communication().
+# Returns success or failure based on client synchronization
+@app.route('/start_medical_training', methods=['POST'])
+def start_medical_training():
+    data = request.get_json()
+    dataset = data.get('dataset')
+    round_number = data.get('round_number', 1)
+
+    logging.info(f"Received request to start medical training for round {round_number} with dataset: {dataset}")
+
+    if not dataset:
+        return jsonify({'message': 'Dataset not provided'}), 400
+
+    success = handle_medical_training_communication(round_number, dataset)
+    
+    if success:
+        return jsonify({'message': f'Medical training started for {dataset} scenario!'}), 200
+    else:
+        return jsonify({'message': 'Failed to synchronize all clients.'}), 500
+
+# 8. Receives model updates from clients, stores the updates,
+# and triggers model aggregation when all clients have submitted their updates for the current round
 @app.route('/update', methods=['POST'])
 def update_model():
     client_id = request.json['client_id']
@@ -128,7 +190,8 @@ def update_model():
 
     return jsonify({'message': 'Update received'}), 200
 
-# 7
+# 9. Aggregates the models from all clients by averaging their weights and metrics. Updates
+# the global model and cumulative metrics, resets client statuses, and triggers a server refresh
 def aggregate_models(client_updates):
     global global_model, num_rounds, cumulative_metrics
     weight_sums = None
@@ -182,8 +245,9 @@ def aggregate_models(client_updates):
 
     logging.info("Server refresh triggered after the last client update.")
 
+# 10. Updates a client's status on the server (e.g., to 'training') and triggers a server refresh if needed
 @app.route('/client_status', methods=['POST'])
-def update_client_status(): #8
+def update_client_status():
     client_id = request.json['client_id']  # Get the client ID from the request
     status = request.json['status']        # Get the new status from the request
 
@@ -197,21 +261,25 @@ def update_client_status(): #8
     
     return jsonify({'message': 'Client status updated successfully'}), 200
 
+# 11. Returns the current state of all registered clients for debugging purposes.
 @app.route('/debug/clients', methods=['GET'])
-def debug_clients(): #9
+def debug_clients():
     return jsonify(clients), 200  # Return the clients' dictionary as JSON for debugging
 
-def set_refresh(): #10
+# 12. Sets the refresh flag to True, indicating that the server should trigger a refresh
+def set_refresh():
     global should_refresh
     should_refresh = True  # Set the refresh flag to True
     logging.info("set_refresh() called. should_refresh set to True.")
 
-def clear_refresh(): #11
+# 13. Clears the refresh flag, indicating that the server has completed its refresh
+def clear_refresh():
     global should_refresh
     should_refresh = False  # Set the refresh flag to False
 
+# 14. Returns the current state of the refresh flag (True or False). Clears the flag after returning True
 @app.route('/should_refresh', methods=['GET'])
-def should_refresh(): #12
+def should_refresh():
     global should_refresh
     logging.info(f"/should_refresh endpoint hit. Current value: {should_refresh}")
     if should_refresh:
@@ -221,8 +289,10 @@ def should_refresh(): #12
     logging.info("Returning should_refresh=False.")
     return jsonify({'should_refresh': False})
 
+# 15. Resets the server's state, clearing the global model, metrics, and round counters.
+# It also sends a reset request to all clients and triggers a server refresh
 @app.route('/reset_server', methods=['POST'])
-def reset(): #13
+def reset():
     global clients, global_model, metrics, num_rounds, global_metrics, cumulative_metrics, should_refresh
     logging.info("Resetting server state...")
 
@@ -245,6 +315,7 @@ def reset(): #13
 
     return jsonify({'message': 'Server state reset successfully'}), 200
 
+# 16. Renders the main web page, showing the status of clients and the averaged metrics across all rounds.
 @app.route('/')
 def index(): #14
     if clients:
@@ -256,6 +327,7 @@ def index(): #14
     averaged_metrics = {metric: (cumulative_metrics[metric] / num_rounds if num_rounds > 0 else 0) for metric in cumulative_metrics}
     return render_template('index.html', clients=clients, metrics=averaged_metrics, num_rounds=num_rounds)
 
+# 17. Notifies all clients of the server's shutdown and then forcefully stops the server.
 @app.route('/shutdown', methods=['POST'])
 def shutdown(): #15
     # Notify all connected clients that the server is shutting down
@@ -272,58 +344,6 @@ def shutdown(): #15
     
     # Use os._exit(0) to forcefully stop the server immediately
     os._exit(0)
-
-def handle_medical_training_communication(round_number, dataset):
-    logging.info(f"Handling communication for medical training scenario for round {round_number}.")
-
-    client_status = {client_id: False for client_id in clients.keys()}  # Track the status of each client
-    max_retries = 5  # Maximum number of retries for each client
-    retry_delay = 5  # Delay in seconds between retries
-
-    for client_id, info in clients.items():
-        port = info['port']
-        for attempt in range(max_retries):
-            try:
-                response = requests.post(f'http://{info["host"]}:{port}/prepare_training', json={'dataset': dataset})
-                if response.status_code == 200:
-                    client_status[client_id] = True
-                    logging.info(f"Client {client_id} successfully prepared for training.")
-                    break
-                else:
-                    logging.warning(f"Client {client_id} failed to prepare on attempt {attempt + 1}. Retrying...")
-            except requests.RequestException as e:
-                logging.error(f"Error communicating with client {client_id}: {e}")
-            time.sleep(retry_delay)  # Wait before retrying
-
-    # Check if all clients are ready
-    if all(client_status.values()):
-        logging.info("All clients are ready. Proceeding with training.")
-        wait_and_start_clients(dataset)
-    else:
-        logging.error("Not all clients were ready after maximum retries. Aborting round.")
-        return False  # Indicate failure
-
-    return True  # Indicate success
-
-
-@app.route('/start_medical_training', methods=['POST'])
-def start_medical_training():
-    data = request.get_json()
-    dataset = data.get('dataset')
-    round_number = data.get('round_number', 1)
-
-    logging.info(f"Received request to start medical training for round {round_number} with dataset: {dataset}")
-
-    if not dataset:
-        return jsonify({'message': 'Dataset not provided'}), 400
-
-    success = handle_medical_training_communication(round_number, dataset)
-    
-    if success:
-        return jsonify({'message': f'Medical training started for {dataset} scenario!'}), 200
-    else:
-        return jsonify({'message': 'Failed to synchronize all clients.'}), 500
-
 
 if __name__ == '__main__': # Calling app.run() to start the Flask web server at http://localhost:5000/
     app.run(debug=True, port=5000)
