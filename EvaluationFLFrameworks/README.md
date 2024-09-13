@@ -8,7 +8,7 @@ All five FL frameworks evaluated—FedML, Flower, FATE, TensorFlow Federated (TF
   
 - **TensorFlow Federated (TFF) and PySyft**: While both frameworks are designed with FL in mind, the evaluation determined that TFF and PySyft are more geared toward academic research. Their tutorials are primarily focused on proofs of concept, making them less practical for large-scale real-world FL deployments compared to the other frameworks.
 
-![Table 5.6:](../../FiguresAndTables/Table%205.6.%20FL%20Ranking%20after%20evaluation.png)  
+![Table 5.6:](../FiguresAndTables/Table%205.6.%20FL%20Ranking%20after%20evaluation.png)  
 **Table 5.6: FL framework ranking after evaluation.**
 
 ### Conclusion
