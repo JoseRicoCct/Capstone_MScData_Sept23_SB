@@ -53,7 +53,7 @@ This experiment applies **federated learning** to train a **binary classificatio
 
 These results underscore the model's capacity to perform effectively in distinguishing between the binary classes within the dataset. The experiment showcases the viability of federated learning in healthcare applications, maintaining data privacy while achieving a reasonable AUC score.
 
-## Annex `10.2.4. FedML`
+## Annex `10.1.4. FedML`
 
 ### Running the FedAvg MNIST LR Example
 Open three terminals one for the server and two for each client

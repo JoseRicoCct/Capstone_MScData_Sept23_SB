@@ -20,7 +20,7 @@ This project explores constructing a custom federated learning algorithm using t
 - **Implementing Federated Averaging**: Creating a basic FedAvg algorithm by defining the `initialize_fn` and `next_fn` functions, integrating TensorFlow code with distributed communication operations.
 - **Algorithm Implementation and Evaluation**: Combining TensorFlow operations with TFF's Federated Core to build and evaluate a custom iterative process for the FL algorithm, observing the model's performance after a few training rounds.
 
-## Annex `10.2.5. TensorFlow Federated`
+## Annex `10.1.5. TensorFlow Federated`
 
 ### Create and Environment and Install Dependencies
 Executing below commands will avoid package conflicts:

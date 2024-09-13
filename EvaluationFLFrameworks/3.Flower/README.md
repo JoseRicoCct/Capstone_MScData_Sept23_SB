@@ -8,7 +8,7 @@ The Vertical FL Flower example demonstrates the implementation of Vertical Feder
 ### PyTorch: From Centralized To Federated
 The PyTorch: From Centralized To Federated example demonstrates transitioning a machine learning project from a centralized setup to a federated learning setup using Flower and PyTorch. In the centralized setup, the CIFAR-10 dataset trains a convolutional neural network (CNN) on a single machine, achieving an accuracy of 37.8% over two epochs. This method benefits from access to the entire dataset, enabling comprehensive learning. In contrast, the federated setup distributes the dataset across multiple clients, each training the model locally. The Flower framework coordinates by aggregating updates from each client to refine the global model. The federated training logs show the server managing client updates over 10 rounds, achieving an improved accuracy of 48.9%. This higher accuracy demonstrates federated learning's potential to leverage diverse, distributed data sources effectively, benefiting from varied data distributions across clients and enhancing generalization capabilities. However, federated learning introduces challenges like communication overhead and the need for effective aggregation strategies. The example highlights Flower's practicality in facilitating federated learning, enabling collaborative training while maintaining data privacy, as no raw data is shared between clients, making it valuable for real-world applications with inherently distributed data.
 
-## Annex `10.2.3. Flower`
+## Annex `10.1.3. Flower`
 
 ### Clone the Repositories
 
@@ -16,8 +16,8 @@ The PyTorch: From Centralized To Federated example demonstrates transitioning a 
 git clone --depth=1 https://github.com/adap/flower.git _tmp && mv _tmp/examples/vertical-fl . && rm -rf _tmp && cd vertical-fl
 git clone --depth=1 https://github.com/adap/flower.git && mv flower/examples/pytorch-from-centralized-to-federated . && rm -rf flower && cd pytorch-from-centralized-to-federated
 ```
-![Figure 10.2.11: Cloning Flower examples repositories](../../FiguresAndTables/Figure%2010.2.11.%20Cloning%20Flower%20examples%20repositories.png)  
-**Figure 10.2.11: Cloning Flower examples repositories.**
+![Figure 11md: Cloning Flower examples repositories](../../FiguresAndTables/Figure%2011md.%20Cloning%20Flower%20examples%20repositories.png)  
+**Figure 11md: Cloning Flower examples repositories.**
 
 ### Vertical FL Flower Example
 Navigate to the `vertical-fl` directory, create an environment and install the dependencies.
@@ -27,15 +27,15 @@ python3 -m venv vfl_env
 source vfl_env/bin/activate
 pip install -r requirements.txt
 ```
-![Figure 10.2.12: Creating environments and installing dependencies](../../FiguresAndTables/Figure%2010.2.12.%20Creating%20environments%20and%20installing%20dependencies.png)  
-**Figure 10.2.12: Creating environments and installing dependencies.**
+![Figure 12md: Creating environments and installing dependencies](../../FiguresAndTables/Figure%2012md.%20Creating%20environments%20and%20installing%20dependencies.png)  
+**Figure 12md: Creating environments and installing dependencies.**
 
 #### Running the Example
 ```bash
 python3 simulation.py
 ```
-![Figure 10.2.13: Running vertical-fl: output](../../FiguresAndTables/Figure%2010.2.13.%20Running%20vertical-fl%20output.png)  
-**Figure 10.2.13: Running vertical-fl: output.**
+![Figure 13md: Running vertical-fl: output](../../FiguresAndTables/Figure%2013md.%20Running%20vertical-fl%20output.png)  
+**Figure 13md: Running vertical-fl: output.**
 
 
 ### PyTorch: From Centralized To Federated
@@ -54,16 +54,16 @@ pip install -r requirements.txt
 ```bash
 python3 cifar.py
 ```
-![Figure 10.2.14: Running pytorch from centralized to federated: centralized output](../../FiguresAndTables/Figure%2010.2.14.%20Running%20pytorch%20from%20centralized%20to%20federated%20centralized%20output.png)  
- **Figure 10.2.14: Running pytorch from centralized to federated: centralized output.**
+![Figure 14md: Running pytorch from centralized to federated: centralized output](../../FiguresAndTables/Figure%2014md.%20Running%20pytorch%20from%20centralized%20to%20federated%20centralized%20output.png)  
+ **Figure 14md: Running pytorch from centralized to federated: centralized output.**
 #### Running the Federated Example
 
 
 ```bash
 ./run.sh
 ```
-![Figure 10.2.15: Running pytorch from centralized to federated: federated output](../../FiguresAndTables/Figure%2010.2.15.%20Running%20pytorch%20from%20centralized%20to%20federated%20federated%20output.png)  
- **Figure 10.2.15: Running pytorch from centralized to federated: federated output.**
+![Figure 15md: Running pytorch from centralized to federated: federated output](../../FiguresAndTables/Figure%2015md.%20Running%20pytorch%20from%20centralized%20to%20federated%20federated%20output.png)  
+ **Figure 15md: Running pytorch from centralized to federated: federated output.**
 
 
 ## References
