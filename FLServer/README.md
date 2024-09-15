@@ -7,8 +7,6 @@ This project demonstrates the implementation of a **Federated Learning (FL) Cros
 ## Project Directory Structure
 Below is the directory structure for this repository **FL Cross-Client Horizontal Server**. The layout shows all the components that make up the artifact.
 
-## Project Directory Structure
-Below is the directory structure for this repository **FL Cross-Client Horizontal Server**. The layout below shows all the components that integrate the artifact.
 ```bash
 FLServer/
 ├── JNs/
