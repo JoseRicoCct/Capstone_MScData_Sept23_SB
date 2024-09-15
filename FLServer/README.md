@@ -5,10 +5,10 @@
 This project demonstrates the implementation of a **Federated Learning (FL) Cross-Client Horizontal Server**. Users can replicate the experiment by following the steps below.
 
 ## Project Directory Structure
-Below is the directory structure of the **FL Cross-Client Horizontal Server**. The layout below shows all the components that integrate the artifact.
+Below is the directory structure for this repository **FL Cross-Client Horizontal Server**. The layout shows all the components that make up the artifact.
 
 ## Project Directory Structure
-Below is the directory structure of the **FL Cross-Client Horizontal Server**. The layout below shows all the components that integrate the artifact.
+Below is the directory structure for this repository **FL Cross-Client Horizontal Server**. The layout below shows all the components that integrate the artifact.
 ```bash
 FLServer/
 ├── JNs/
@@ -131,8 +131,8 @@ cd ~/Desktop/Capstone_MScData_Sept23_SB/FLServer && source FLServerEnv/bin/activ
 
 Watch the practical demonstration of how the Federated Learning server trains the technological and medical scenarios:
 
-[![YouTube](http://i.ytimg.com/vi/vErRPw0Rasw/hqdefault.jpg)](https://www.youtube.com/watch?v=vErRPw0Rasw)
+[![Federated Learning Server Demonstration](https://img.youtube.com/vi/vErRPw0Rasw/maxresdefault.jpg)](https://www.youtube.com/watch?v=vErRPw0Rasw "Click to play")
 
-Click the video above or [here](https://www.youtube.com/watch?v=vErRPw0Rasw) to watch the video on YouTube.
+Click the image above or [here](https://www.youtube.com/watch?v=vErRPw0Rasw) to watch the video on YouTube.
 
 
