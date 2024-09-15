@@ -7,53 +7,9 @@ This project demonstrates the implementation of a **Federated Learning (FL) Cros
 ## Project Directory Structure
 Below is the directory structure of the **FL Cross-Client Horizontal Server**. The layout below shows all the components that integrate the artifact.
 
-FLServer/
-├── JNs/
-│   ├── DataGenerationMedical.ipynb
-│   ├── DataGenerationTechnological.ipynb
-│   ├── PlotGenerationTechMedModels.ipynb
-│   └── TrainingScenariosResults.ipynb
-├── scenarios/
-│   ├── medical/
-│   │   ├── client1/
-│   │   │   ├── IID/
-│   │   │   │   ├── train/
-│   │   │   │   │   ├── Lung/150 images
-│   │   │   │   │   └── NotLung/150 images  
-│   │   │   │   └── test/
-│   │   │   │       ├── Lung/150 images
-│   │   │   │       └── NotLung/150 images
-│   │   │   └── nonIID/
-│   │   │       ├── train/
-│   │   │       │   ├── Lung/100 images  
-│   │   │       │   └── NotLung/10 images
-│   │   │       └── test/
-│   │   │           ├── Lung/50 images
-│   │   │           └── NotLung/60 images
-│   │   ├── client2/
-│   │   ├── client3/
-│   │   ├── client4/
-│   │   └── client5/
-│   ├── technological/
-│   │   ├── client1/
-│   │   │   ├── data1_iid.csv
-│   │   │   └── data1_nonIID.csv
-│   │   ├── client2/
-│   │   ├── client3/
-│   │   ├── client4/
-│   │   └── client5/
-├── static/
-│   ├── cct_logo.png
-│   ├── script.js
-│   └── styles.css
-├── templates/
-│   └── index.html
-├── client.py
-├── server.py
-└── requirements.txt
-
-
-
+FLServer/ ├── JNs/ │ ├── DataGenerationMedical.ipynb │ ├── DataGenerationTechnological.ipynb │ ├── PlotGenerationTechMedModels.ipynb │ └── TrainingScenariosResults.ipynb ├── scenarios/ │ ├── medical/ │ │ ├── client1/ │ │ │ ├── IID/ │ │ │ │ ├── train/ │ │ │ │ │ ├── Lung/150 images │ │ │ │ │ └── NotLung/150 images
+│ │ │ │ └── test/ │ │ │ │ ├── Lung/150 images │ │ │ │ └── NotLung/150 images │ │ │ └── nonIID/ │ │ │ ├── train/ │ │ │ │ ├── Lung/100 images
+│ │ │ │ └── NotLung/10 images │ │ │ └── test/ │ │ │ ├── Lung/50 images │ │ │ └── NotLung/60 images │ │ ├── client2/ │ │ ├── client3/ │ │ ├── client4/ │ │ └── client5/ │ ├── technological/ │ │ ├── client1/ │ │ │ ├── data1_iid.csv │ │ │ └── data1_nonIID.csv │ │ ├── client2/ │ │ ├── client3/ │ │ ├── client4/ │ │ └── client5/ ├── static/ │ ├── cct_logo.png │ ├── script.js │ └── styles.css ├── templates/ │ └── index.html ├── client.py ├── server.py └── requirements.txt
 
 ## Instructions
 
@@ -131,8 +87,10 @@ cd ~/Desktop/Capstone_MScData_Sept23_SB/FLServer && source FLServerEnv/bin/activ
 
 Watch the practical demonstration of how the Federated Learning server trains the technological and medical scenarios:
 
-[![Federated Learning Server Demonstration](https://img.youtube.com/vi/vErRPw0Rasw/0.jpg)](https://www.youtube.com/watch?v=vErRPw0Rasw)
+<iframe width="800" height="450" src="https://www.youtube.com/embed/vErRPw0Rasw" 
+title="Federated Learning Server Demonstration" frameborder="0" 
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-Click the image above or [here](https://www.youtube.com/watch?v=vErRPw0Rasw) to watch the video on YouTube.
+Click the video above or [here](https://www.youtube.com/watch?v=vErRPw0Rasw) to watch the video on YouTube.
 
 
