@@ -9,7 +9,7 @@ Below is the directory structure of the **FL Cross-Client Horizontal Server**. T
 
 ## Project Directory Structure
 Below is the directory structure of the **FL Cross-Client Horizontal Server**. The layout below shows all the components that integrate the artifact.
-
+```bash
 FLServer/
 ├── JNs/
 │   ├── DataGenerationMedical.ipynb
@@ -54,7 +54,7 @@ FLServer/
 ├── client.py
 ├── server.py
 └── requirements.txt
-
+```
 ## Instructions
 
 ### 1. Clone the Repository
