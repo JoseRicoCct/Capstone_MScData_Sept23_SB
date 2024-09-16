@@ -198,3 +198,6 @@ Watch the practical demonstration of how the Federated Learning server trains th
 Click the image above or [here](https://www.youtube.com/watch?v=vErRPw0Rasw) to watch the video on YouTube.
 
 
+## License
+
+This project is licensed under the Apache 2.0 License. See the [LICENSE](../LICENSE) file for more details.
