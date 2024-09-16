@@ -113,9 +113,10 @@ FLServer/
 │   └── styles.css
 ├── templates/
 │   └── index.html
+├── README.md
 ├── client.py
-├── server.py
-└── requirements.txt
+├── requirements.txt
+└── server.py
 ```
 ## Instructions
 
@@ -196,6 +197,22 @@ Watch the practical demonstration of how the Federated Learning server trains th
 [![Federated Learning Server Demonstration](https://img.youtube.com/vi/vErRPw0Rasw/maxresdefault.jpg)](https://www.youtube.com/watch?v=vErRPw0Rasw "Click to play")
 
 Click the image above or [here](https://www.youtube.com/watch?v=vErRPw0Rasw) to watch the video on YouTube.
+
+## Contributing
+
+This artifact is developed with a focus on robustness and quality, and it is believed to meet the highest standards. However, contributions from the community are welcome to enhance or extend its functionality. If there are any ideas for improvements or the introduction of new features, a pull request can be opened for consideration.
+
+Contributions may include:
+- Adding new features or improving existing ones
+- Enhancing documentation
+- Improving performance
+- Refactoring or cleaning up code
+
+Before submitting a pull request, it is recommended that the contribution:
+- Adheres to the project's coding style and standards
+- Is thoroughly documented with clear commit messages
+
+The community's involvement is appreciated in further enhancing the artifact.
 
 
 ## License
