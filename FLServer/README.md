@@ -8,7 +8,6 @@ This project demonstrates the implementation of a **Federated Learning (FL) Cros
 Below is the directory structure for this repository **FL Cross-Client Horizontal Server**. The layout shows all the components that make up the artifact.
 
 ```bash
-FLServer/
 ├── JNs/
 │   ├── DataGenerationMedical.ipynb
 │   ├── DataGenerationTechnological.ipynb
@@ -31,18 +30,82 @@ FLServer/
 │   │   │       └── test/
 │   │   │           ├── Lung/50 images
 │   │   │           └── NotLung/60 images
-│   ├── client2/
-│   ├── client3/
-│   ├── client4/
-│   ├── client5/
-├── technological/
-│   ├── client1/
-│   │   ├── data1_iid.csv
-│   │   └── data1_nonIID.csv
-│   ├── client2/
-│   ├── client3/
-│   ├── client4/
-│   └── client5/
+│   │   ├── client2/
+│   │   │   ├── IID/
+│   │   │   │   ├── train/
+│   │   │   │   │   ├── Lung/150 images
+│   │   │   │   │   └── NotLung/150 images
+│   │   │   │   └── test/
+│   │   │   │       ├── Lung/150 images
+│   │   │   │       └── NotLung/150 images
+│   │   │   └── nonIID/
+│   │   │       ├── train/
+│   │   │       │   ├── Lung/40 images
+│   │   │       │   └── NotLung/15 images
+│   │   │       └── test/
+│   │   │           ├── Lung/50 images
+│   │   │           └── NotLung/100 images
+│   │   ├── client3/
+│   │   │   ├── IID/
+│   │   │   │   ├── train/
+│   │   │   │   │   ├── Lung/150 images
+│   │   │   │   │   └── NotLung/150 images
+│   │   │   │   └── test/
+│   │   │   │       ├── Lung/150 images
+│   │   │   │       └── NotLung/150 images
+│   │   │   └── nonIID/
+│   │   │       ├── train/
+│   │   │       │   ├── Lung/50 images
+│   │   │       │   └── NotLung/80 images
+│   │   │       └── test/
+│   │   │           ├── Lung/40 images
+│   │   │           └── NotLung/30 images
+│   │   ├── client4/
+│   │   │   ├── IID/
+│   │   │   │   ├── train/
+│   │   │   │   │   ├── Lung/150 images
+│   │   │   │   │   └── NotLung/150 images
+│   │   │   │   └── test/
+│   │   │   │       ├── Lung/150 images
+│   │   │   │       └── NotLung/150 images
+│   │   │   └── nonIID/
+│   │   │       ├── train/
+│   │   │       │   ├── Lung/35 images
+│   │   │       │   └── NotLung/20 images
+│   │   │       └── test/
+│   │   │           ├── Lung/100 images
+│   │   │           └── NotLung/90 images
+│   │   └── client5/
+│   │       ├── IID/
+│   │       │   ├── train/
+│   │       │   │   ├── Lung/150 images
+│   │       │   │   └── NotLung/150 images
+│   │       │   └── test/
+│   │       │       ├── Lung/150 images
+│   │       │       └── NotLung/150 images
+│   │       └── nonIID/
+│   │           ├── train/
+│   │           │   ├── Lung/100 images
+│   │           │   └── NotLung/80 images
+│   │           └── test/
+│   │               ├── Lung/40 images
+│   │               └── NotLung/30 images
+│   └── technological/
+│        ├── client1/
+│        │   ├── data1_IID.csv
+│        │   └── data1_nonIID.csv
+│        ├── client2/
+│        │   ├── data2_IID.csv
+│        │   └── data2_nonIID.csv
+│        ├── client3/
+│        │   ├── data3_IID.csv
+│        │   └── data3_nonIID.csv
+│        ├── client4/
+│        │   ├── data4_IID.csv
+│        │   └── data4_nonIID.csv
+│        └── client5/
+│            ├── data5_IID.csv
+│            └── data5_nonIID.csv
 ├── static/
 │   ├── cct_logo.png
 │   ├── script.js
