@@ -1,6 +1,6 @@
 # Instructions to Deploy Federated Learning Cross-Client Horizontal Server
 
-**Recommendation:** The FL server was developed on **Ubuntu 22.04.4 LTS**, and it is recommended to use the same OS for deployment, as no other OSs have been tested with this application.
+**Recommendation:** The FL server was developed on **Ubuntu 22.04.4 LTS** `Operating System (OS)`, and it is recommended to use the same OS for deployment, as no other OSs have been tested with this application.
 
 This project demonstrates the implementation of a **Federated Learning (FL) Cross-Client Horizontal Server**. Users can replicate the experiment by following the steps below.
 
@@ -8,6 +8,7 @@ This project demonstrates the implementation of a **Federated Learning (FL) Cros
 Below is the directory structure for this repository **FL Cross-Client Horizontal Server**. The layout shows all the components that make up the artifact.
 
 ```bash
+FLServer/
 ├── JNs/
 │   ├── DataGenerationMedical.ipynb
 │   ├── DataGenerationTechnological.ipynb
