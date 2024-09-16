@@ -162,7 +162,7 @@ python3 server.py
 
 ### 6. Open Multiple Terminals and Connect Clients
 
-In order to run the FL experiment, you need to open 5 separate terminals, each representing a client. For each terminal, follow these steps:
+In order to run the FL experiment, open 5 separate terminals, each representing a client. For each terminal, follow these steps:
 
 #### Client 1
 Open a new terminal and run:
