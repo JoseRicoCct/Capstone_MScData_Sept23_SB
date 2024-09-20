@@ -68,6 +68,8 @@ The server was run across four scenarios, technological and medical, each in its
 ![FL server flow](/FiguresAndTables/mainReadmeFig/4.jpg)  
 **Figure 4.** FL server flow.
 
+---
+
 ### 4.3. Machine Learning Models Used
 
 This section describes the ML models used within the FL server. The models were designed based on the identified client population. The samples, reflecting the majority of the literature review, were categorised into medical and technological scenarios.
