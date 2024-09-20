@@ -201,7 +201,7 @@ The non-IID variant produced the following results after training. Clients 3 and
 ---
 ### 6. Server Deployment
 
-Please refer to the documentation to deploy the FL server [FLServer](https://github.com/JoseRicoCct/Capstone_MScData_Sept23_SB/edit/main/FLServer/README.md).  
+Please refer to the documentation to deploy the FL server [FLServer](https://github.com/JoseRicoCct/Capstone_MScData_Sept23_SB/edit/main/FLServer).  
 Watch the practical demonstration of how the Federated Learning server trains the technological and medical scenarios:
 
 [![Federated Learning Server Demonstration](https://img.youtube.com/vi/vErRPw0Rasw/maxresdefault.jpg)](https://www.youtube.com/watch?v=vErRPw0Rasw "Click to play")
