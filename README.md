@@ -45,7 +45,7 @@ Horizontal Federated Learning (HFL) or sample-based FL, occurs when different cl
 
 This chapter describes how the FL server was built, including its architecture, communication protocols, server functions, and client coordination. A high-level overview of the project file structure is shown in Figure 2. The server is orchestrated by `server.py`, with clients connecting to the server via `client.py`. There are two scenarios for training: medical and technological. Data for these scenarios was generated using Jupyter Notebooks stored in the `FLServer/JNs` directory. Finally, a front-end page (`index.html`) is provided to interact with the server. To format the page, `styles.css` was used, and `script.js` gave the logic to interact with the server and dynamically update the HTML content.
 
-![FL server file structure](/FiguresAndTables/mainReadmeFig/2.png)  
+![FL server file structure](/FiguresAndTables/mainReadmeFig/2.jpg)  
 **Figure 2.** FL server file structure.
 
 ---
@@ -54,7 +54,7 @@ This chapter describes how the FL server was built, including its architecture, 
 
 The designed FL server has an architecture to fit multiple client nodes; for this experiment, five clients were connected to the server on different ports. The server coordinated the entire process, aggregating the global model after local client training and sending back weights to the clients for further training. The architecture is illustrated in Figure 3.
 
-![FL server architecture](/FiguresAndTables/mainReadmeFig/3.png)  
+![FL server architecture](/FiguresAndTables/mainReadmeFig/3.jpg)  
 **Figure 3.** FL server architecture.
 
 ---
@@ -63,7 +63,7 @@ The designed FL server has an architecture to fit multiple client nodes; for thi
 
 The server was run across four scenarios, technological and medical, each in its IID and non-IID variants. After the five clients connected, the training for the Technological IID scenario iterated over five rounds, followed by the same process for Technological non-IID, Medical IID, and Medical non-IID. After the final training scenario, the server was shut down. A video is available to illustrate this process, as shown in Figure 4.
 
-![FL server flow](/FiguresAndTables/mainReadmeFig/4.png)  
+![FL server flow](/FiguresAndTables/mainReadmeFig/4.jpg)  
 **Figure 4.** FL server flow.
 
 ---
@@ -118,12 +118,12 @@ A simple algorithm was introduced for this project: The Federated Weighted Avera
 
 The technological data used in this project was synthetically generated, with the primary requirement being a binary target and features suitable for modelling a Neural Network. Two sets of datasets were created: IID and non-IID. Python libraries such as `numpy`, `pandas`, and `Faker` were used for this purpose. For the IID datasets, each client received normally distributed feature columns and a balanced binary target variable, each consisting of 5,000 rows. The logic for IID data generation is illustrated in Figure 8.
 
-![Technological IID data generation](/FiguresAndTables/mainReadmeFig/8.png)  
+![Technological IID data generation](/FiguresAndTables/mainReadmeFig/8.jpg)  
 **Figure 8.** Flow technological IID data generation.
 
 The non-IID datasets introduced variability and imbalance, with one class dominating the target variable and features multiplied by random factors to achieve non-normally distributed data. The number of rows in these datasets ranged between 3,000 and 7,000. The logic for non-IID data generation is illustrated in Figure 9.
 
-![Technological non-IID data generation](/FiguresAndTables/mainReadmeFig/9.png)  
+![Technological non-IID data generation](/FiguresAndTables/mainReadmeFig/9.jpg)  
 **Figure 9.** Flow technological non-IID data generation.
 
 In total, five clients were simulated, each receiving both IID and non-IID datasets, all saved in CSV format.
