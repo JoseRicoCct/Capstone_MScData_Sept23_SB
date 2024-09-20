@@ -50,7 +50,7 @@ This chapter describes how the FL server was built, including its architecture, 
 
 ---
 
-### 4.1 Architecture
+### 4.1. Architecture
 
 The designed FL server has an architecture to fit multiple client nodes; for this experiment, five clients were connected to the server on different ports. The server coordinated the entire process, aggregating the global model after local client training and sending back weights to the clients for further training. The architecture is illustrated in Figure 3.
 
@@ -59,31 +59,18 @@ The designed FL server has an architecture to fit multiple client nodes; for thi
 
 ---
 
-### 4.2 FL Server Flow
+### 4.2. FL Server Flow
 
 The server was run across four scenarios, technological and medical, each in its IID and non-IID variants. After the five clients connected, the training for the Technological IID scenario iterated over five rounds, followed by the same process for Technological non-IID, Medical IID, and Medical non-IID. After the final training scenario, the server was shut down. A video is available to illustrate this process, as shown in Figure 4.
 
 ![FL server flow](/FiguresAndTables/mainReadmeFig/4.jpg)  
 **Figure 4.** FL server flow.
 
----
-
-### 4.3 Server Deployment
-
-Please refer to the documentation to deploy the FL server [here](https://github.com/JoseRicoCct/Capstone_MScData_Sept23_SB/edit/main/FLServer/README.md).  
-Watch the practical demonstration of how the Federated Learning server trains the technological and medical scenarios:
-
-[![Federated Learning Server Demonstration](https://img.youtube.com/vi/vErRPw0Rasw/maxresdefault.jpg)](https://www.youtube.com/watch?v=vErRPw0Rasw "Click to play")
-
-Click the image above or [here](https://www.youtube.com/watch?v=vErRPw0Rasw) to watch the video on YouTube.
-
----
-
-### 4.5 Machine Learning Models Used
+### 4.3. Machine Learning Models Used
 
 This section describes the ML models used within the FL server. The models were designed based on the identified client population. The samples, reflecting the majority of the literature review, were categorised into medical and technological scenarios.
 
-#### 4.5.1 Technological Model
+#### 4.3.1 Technological Model
 
 The technological model employed was a Neural Network (NN) designed to handle structured data for a binary classification task. The data was contained in a CSV file with seven features and a target column with two categories. This model was designed for a case where any tech company could face a similar binary classification task, such as determining if a product could be sold or a mortgage could be given based on a binary target. The model architecture is illustrated in Figure 5.
 
@@ -92,7 +79,7 @@ The technological model employed was a Neural Network (NN) designed to handle st
 
 The NN was implemented using TensorFlow and Keras libraries and compiled using the binary cross-entropy loss function optimised with the Adam optimiser.
 
-#### 4.5.2 Medical Model
+#### 4.3.2 Medical Model
 
 The medical model utilised was a Convolutional Neural Network (CNN), designed for image classification tasks in the medical domain. In this scenario, the data consisted of images labelled as "lung" or "not lung". The CNN was trained to classify these images based on the labels. This approach aimed to emulate similar medical experiments observed while reviewing the FL frameworks. The model architecture is depicted in Figure 6.
 
@@ -103,7 +90,7 @@ The CNN was implemented using TensorFlow and Keras libraries and compiled using 
 
 ---
 
-### 4.6 Algorithm
+### 4.4. Algorithm
 
 A simple algorithm was introduced for this project: The Federated Weighted Average (FedWAvg). It was designed for the distributed task of training five clients in parallel within the FL server. The server aggregated updates sent by the clients using a weighted averaging method based on the number of data points. The aggregated global model was then distributed to all clients for the next round of training. As shown in Figure 7, the server initialises the global model with weights `w0`. In each round, five clients participate, training the model locally and updating the weights `wt`. The server then collects the updated weights from all clients, computes a weighted average to update the global model, and finally sends the updated global model back to the clients.
 
@@ -112,9 +99,9 @@ A simple algorithm was introduced for this project: The Federated Weighted Avera
 
 ---
 
-### 4.7 Data Used
+### 4.5. Data Used
 
-#### 4.7.1 Technological Data
+#### 4.5.1 Technological Data
 
 The technological data used in this project was synthetically generated, with the primary requirement being a binary target and features suitable for modelling a Neural Network. Two sets of datasets were created: IID and non-IID. Python libraries such as `numpy`, `pandas`, and `Faker` were used for this purpose. For the IID datasets, each client received normally distributed feature columns and a balanced binary target variable, each consisting of 5,000 rows. The logic for IID data generation is illustrated in Figure 8.
 
@@ -128,7 +115,7 @@ The non-IID datasets introduced variability and imbalance, with one class domina
 
 In total, five clients were simulated, each receiving both IID and non-IID datasets, all saved in CSV format.
 
-#### 4.7.2 Medical Data
+#### 4.5.2 Medical Data
 
 For this scenario, the RSNA Chest X-ray and MNIST datasets were combined. The X-ray images were downloaded, resized, normalised, and labelled as "lung". The MNIST dataset was similarly resized, converted to RGB, and labelled as "not lung". This process is depicted in Figure 10.
 
@@ -146,7 +133,7 @@ For the IID scenario, datasets were created with an equal distribution of lung a
 
 As introduced in the Federated Learning server implementation, the artifact was validated using IID and non-IID data. The results are presented for both the technological and medical scenarios.
 
-#### 5.1 Technological Scenario
+#### 5.1. Technological Scenario
 
 The synthetic data generated for this scenario followed a normal distribution for the seven features, and the target variable was equally balanced across its two categories for the IID variant, as shown in Figure 12. Shapiro-Wilk Tests (SWTs) were conducted for feature generation. With an alpha (α) of 5%, the null hypothesis (H0) was accepted, making this scenario unlikely to occur in real-life situations.
 
@@ -158,7 +145,7 @@ In contrast, the non-IID data was not normally distributed, and its target varia
 ![Distribution analysis for non-IID](/FiguresAndTables/mainReadmeFig/13.png)  
 **Figure 13.** Distribution analysis for features and target variable in the non-IID variant.
 
-#### 5.1.1 IID Data
+#### 5.1.1. IID Data
 
 After five rounds, the medical scenario with IID data revealed the following results, performance trends by clients and global model. Two clients showed improvement, Client 2 and Client 4. Client 2’s accuracy increased from 0.4927 in round 1 to 0.5092 in round 5, while its loss decreased from 0.8455 to 0.8204. Similarly, Client 4’s accuracy improved from 0.5132 to 0.5160, and its loss reduced from 0.8316 to 0.8121. These clients demonstrated improvement, whereas Clients 1, 3, and 5 experienced declines in both accuracy and loss. The global model also showed a decrease in accuracy from 0.5098 in round 1 to 0.5069 in round 5, and a loss increase from 0.8268 to 0.8288. This suggests potential overfitting and indicates that the FL server design and NN architecture may not be optimal for IID data. The results are depicted in Figures 14 and 15.
 
@@ -168,7 +155,7 @@ After five rounds, the medical scenario with IID data revealed the following res
 ![Technological IID training: Client and global loss metrics](/FiguresAndTables/mainReadmeFig/15.png)  
 **Figure 15.** Technological IID training: Client and global loss metrics.
 
-#### 5.1.2 Non-IID Data
+#### 5.1.2. Non-IID Data
 
 The non-IID data variant produced the following results after training. Clients 1 and 5 showed the most consistent improvements. Client 1’s accuracy increased from 0.5706 in round 1 to 0.5779 in round 5, while its loss decreased from 0.8448 to 0.7945. Similarly, Client 5’s accuracy improved from 0.6950 to 0.7739, with a corresponding loss reduction from 0.7808 to 0.7205. Clients 2 and 3 experienced declines in accuracy and increases in loss. However, the most interesting insight came from Client 4. Its accuracy fluctuated significantly, rising from 0.2203 in round 1 to 0.8133 in round 3, then dropping to 0.2058 in round 4 before bouncing back to 0.8249 in round 5. This erratic performance might be due to communication issues, such as delays in sending accuracy metrics for aggregation or other communication-related problems, which should be addressed in future work. Overall, the model performed well with non-IID data, as the global model's accuracy improved from 0.5807 in round 1 to 0.6621 in round 5, with a corresponding decrease in loss from 0.7911 to 0.7649. The results are shown in Figures 16 and 17.
 
@@ -180,7 +167,7 @@ The non-IID data variant produced the following results after training. Clients 
 
 ---
 
-#### 5.2 Medical Scenario
+#### 5.2. Medical Scenario
 
 As explained earlier, the medical data used was a combination of X-ray and MNIST datasets. The distribution of training and testing images across clients for this scenario is shown in Figure 18.
 
@@ -208,8 +195,18 @@ The non-IID variant produced the following results after training. Clients 3 and
 **Figure 22.** Medical non-IID training: Client and global loss metrics.
 
 ---
+### 6. Server Deployment
 
-### 6. Summary
+Please refer to the documentation to deploy the FL server [FLServer](https://github.com/JoseRicoCct/Capstone_MScData_Sept23_SB/edit/main/FLServer/README.md).  
+Watch the practical demonstration of how the Federated Learning server trains the technological and medical scenarios:
+
+[![Federated Learning Server Demonstration](https://img.youtube.com/vi/vErRPw0Rasw/maxresdefault.jpg)](https://www.youtube.com/watch?v=vErRPw0Rasw "Click to play")
+
+Click the image above or [here](https://www.youtube.com/watch?v=vErRPw0Rasw) to watch the video on YouTube.
+
+---
+
+### 7. Summary
 
 This chapter presented interesting results. For the IID variants, none of them improved the global model. In the technological scenario, only two clients showed improvement, while in the medical scenario, 100% accuracy and minimal loss were achieved from rounds one to five. However, in real-world settings, it is unlikely that data would be perfectly distributed across clients.
 
@@ -220,13 +217,13 @@ In contrast, the non-IID settings, which more closely reflect real-world scenari
 
 ---
 
-### 7. Conclusion
+### 8. Conclusion
 
 The conclusion of this research is that a fully functional cross-client horizontal FL server has been developed, capable of training models in both technical and medical scenarios using IID and non-IID data. This experiment narrows the gap between what popular FL frameworks typically offer in tutorials or case studies by delivering a more realistic FL server, though with some limitations and areas for future improvement, which will be discussed in the following sections.
 
 ---
 
-### 7.1 Limitations
+### 8.1. Limitations
 
 There are a few limitations regarding the developed FL server. Below is a list of these limitations:
 
@@ -237,7 +234,7 @@ There are a few limitations regarding the developed FL server. Below is a list o
 
 ---
 
-### 7.2 Future Work
+### 8.2. Future Work
 
 Above limitations leave ample room for improvement:
 
@@ -255,6 +252,6 @@ Additional improvements, not related to the current limitations, that should be 
 
 ---
 
-### 7.3 Recommendations
+### 8.3. Recommendations
 
 The FL server was developed on Ubuntu 22.04.4 LTS using Python version 3.10.12. It is recommended to use the same OS and Python version for deployment, as no other OSs or Python versions have been tested with this application.
