@@ -1,5 +1,7 @@
 # Master of Science in Data Analytics, CCT College, September 2024
 
+### Author: Jose Maria Rico Leal  
+
 ## Federated Learning: Evaluating Popular Frameworks and Developing a Cross-Client Horizontal Server
 
 ---
