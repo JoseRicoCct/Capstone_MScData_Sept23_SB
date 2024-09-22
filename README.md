@@ -10,9 +10,9 @@
 
 Nowadays, companies and institutions are exploring new ways to enhance their Machine Learning (ML) models. A good example of this was the launch of Federated Learning (FL) by Google in 2017. Since then, this paradigm has evolved, giving birth to a wide range of frameworks for its implementation. Some advantages of FL are that it enables decentralised training and keeps data privacy on client’s side.
 
-This project evaluated five popular FL frameworks and found that their tutorials and use cases are often focused on academic purposes, not reflecting how real-world FL network operates in practice. The aim of this research was to narrow the gap between FL framework use cases and real-world FL systems by developing a cross-client horizontal FL server. This artifact was designed for two scenarios (technological and medical) using IID and non-IID data. The technological scenario addressed a binary classification problem with synthetically generated tabular data, while the medical scenario focused on image classification. In both cases, five clients were connected to a central server, where each scenario was trained in two variants: IID and non-IID.
+This project evaluated five popular FL frameworks and found that their tutorials and use cases are often focused on academic purposes, not reflecting how real-world FL network operates in practice. The aim of this research was to narrow the gap between FL framework use cases and real-world FL systems by developing a `cross-client horizontal FL server`. This artifact was designed for two scenarios (`technological` and `medical`) using IID and non-IID data. The `technological` scenario addressed a binary classification problem with synthetically generated tabular data, while the `medical` scenario focused on image classification. In both cases, five clients were connected to a central server, where each scenario was trained in two variants: IID and non-IID.
 
-The results, focusing only on the non-IID variant for both scenarios, as would occur in real-life applications, showed that the global model improved in the technological scenario, increasing from 58.07% to 66.21%. However, the medical scenario was less successful, with the global model accuracy decreasing from 87.69% to 86.01%.
+The results, focusing only on the non-IID variant for both scenarios, as would occur in real-life applications, showed that the global model improved in the `technological` scenario, increasing from 58.07% to 66.21%. However, the `medical` scenario was less successful, with the global model accuracy decreasing from 87.69% to 86.01%.
 
 This experiment demonstrated a realistic FL server, though with certain limitations. Future work will be needed to improve server infrastructure, incorporate dynamic data, resolve communication issues, and address privacy concerns in order to fully bridge the gap between use cases and a real-world FL server.
 
@@ -28,15 +28,15 @@ FL was conceived to address key challenges such as data privacy, security, decen
 
 The primary purpose of this project is to experiment with FL frameworks to evaluate their implementability and develop a functional FL server. Therefore, the Research Objectives (ROs) are:
 
-- To evaluate the implementability of existing FL frameworks. This section experiments with popular FL frameworks, such as PySyft, FATE, Flower, FedML and TensorFlow Federated (TFF), by examining their architecture and their applicability to real-world FL scenarios. This evaluation serves as the starting point for the primary research.
-- To develop a cross-client horizontal FL server. A practical example of a web Flask FL server will be implemented. The FL server will feature two distinct scenarios: technological and medical. Each scenario will run independently, connecting five clients. Both scenarios will use different datasets, synthetic tabular data for the technological and images for the medical scenario, with data distributed as IID and non-IID. The Technological scenario will utilise a Neural Network (NN), while the medical scenario will employ a Convolutional Neural Network (CNN), both for classification tasks.
+- To evaluate the implementability of existing FL frameworks. This section experiments with popular FL frameworks, such as `PySyft`, `FATE`, `Flower`, `FedML` and `TensorFlow Federated (TFF)`, by examining their architecture and their applicability to real-world FL scenarios. This evaluation serves as the starting point for the primary research.
+- To develop a cross-client horizontal FL server. A practical example of a web Flask FL server will be implemented. The FL server will feature two distinct scenarios: `technological` and `medical`. Each scenario will run independently, connecting five clients. Both scenarios will use different datasets, synthetic tabular data for the `technological` and images for the `medical` scenario, with data distributed as IID and non-IID. The `Technological` scenario will utilise a `Neural Network (NN)`, while the `medical` scenario will employ a `Convolutional Neural Network (CNN)`, both for classification tasks.
 - Comparison of FL frameworks and cross-client horizontal FL server use cases. A comparative analysis of the tutorials reviewed for FL frameworks, alongside the scenarios trained on the FL server, will be conducted to assess how closely the experiments align with real-world applications. The goal is to narrow the gap between popular FL frameworks and real-world FL use cases through the developed FL server.
 
 ---
 
 ### 3. Horizontal Federated Learning
 
-Horizontal Federated Learning (HFL) or sample-based FL, occurs when different clients have datasets that share the same feature space but differ in the samples they hold (see Figure 1). A practical example of HFL is when two hospitals in different regions each have patient records with the same features (e.g., age, height, weight, diagnosis) but for different patients. These hospitals can collaborate to train a model to predict disease outcomes without sharing patient data.
+`Horizontal Federated Learning` (HFL) or sample-based FL, occurs when different clients have datasets that share the same feature space but differ in the samples they hold (see Figure 1). A practical example of HFL is when two hospitals in different regions each have patient records with the same features (e.g., age, height, weight, diagnosis) but for different patients. These hospitals can collaborate to train a model to predict disease outcomes without sharing patient data.
 
 ![Horizontal Federated Learning](/FiguresAndTables/mainReadmeFig/1.png)  
 **Figure 1.** Horizontal Federated Learning. Adapted from Yang et al., (2019).
@@ -45,7 +45,7 @@ Horizontal Federated Learning (HFL) or sample-based FL, occurs when different cl
 
 ### 4. Federated Learning Server Development
 
-This chapter describes how the FL server was built, including its architecture, communication protocols, server functions, and client coordination. A high-level overview of the project file structure is shown in Figure 2. The server is orchestrated by `server.py`, with clients connecting to the server via `client.py`. There are two scenarios for training: medical and technological. Data for these scenarios was generated using Jupyter Notebooks stored in the `FLServer/JNs` directory. Finally, a front-end page (`index.html`) is provided to interact with the server. To format the page, `styles.css` was used, and `script.js` gave the logic to interact with the server and dynamically update the HTML content.
+This chapter describes how the FL server was built, including its architecture, communication protocols, server functions, and client coordination. A high-level overview of the project file structure is shown in Figure 2. The server is orchestrated by `server.py`, with clients connecting to the server via `client.py`. There are two scenarios for training: `medical` and `technological`. Data for these scenarios was generated using Jupyter Notebooks stored in the `FLServer/JNs` directory. Finally, a front-end page (`index.html`) is provided to interact with the server. To format the page, `styles.css` was used, and `script.js` gave the logic to interact with the server and dynamically update the HTML content.
 
 ![FL server file structure](/FiguresAndTables/mainReadmeFig/2.jpg)  
 **Figure 2.** FL server file structure.
@@ -63,7 +63,7 @@ The designed FL server has an architecture to fit multiple client nodes; for thi
 
 ### 4.2. FL Server Flow
 
-The server was run across four scenarios, technological and medical, each in its IID and non-IID variants. After the five clients connected, the training for the Technological IID scenario iterated over five rounds, followed by the same process for Technological non-IID, Medical IID, and Medical non-IID. After the final training scenario, the server was shut down. A [video](https://www.youtube.com/watch?v=vErRPw0Rasw) is available to illustrate this process, as shown in Figure 4.
+The server was run across four scenarios, `technological` and medical, each in its IID and non-IID variants. After the five clients connected, the training for the `Technological IID` scenario iterated over five rounds, followed by the same process for `Technological non-IID`, `Medical IID`, and `Medical non-IID`. After the final training scenario, the server was shut down. A [video](https://www.youtube.com/watch?v=vErRPw0Rasw) is available to illustrate this process, as shown in Figure 4.
 
 ![FL server flow](/FiguresAndTables/mainReadmeFig/4.jpg)  
 **Figure 4.** FL server flow.
@@ -72,31 +72,31 @@ The server was run across four scenarios, technological and medical, each in its
 
 ### 4.3. Machine Learning Models Used
 
-This section describes the ML models used within the FL server. The models were designed based on the identified client population. The samples, reflecting the majority of the literature review, were categorised into medical and technological scenarios.
+This section describes the ML models used within the FL server. The models were designed based on the identified client population. The samples, reflecting the majority of the literature review, were categorised into `medical` and `technological` scenarios.
 
 #### 4.3.1 Technological Model
 
-The technological model employed was a Neural Network (NN) designed to handle structured data for a binary classification task. The data was contained in a CSV file with seven features and a target column with two categories. This model was designed for a case where any tech company could face a similar binary classification task, such as determining if a product could be sold or a mortgage could be given based on a binary target. The model architecture is illustrated in Figure 5.
+The `technological` model employed was a NN designed to handle structured data for a binary classification task. The data was contained in a CSV file with seven features and a target column with two categories. This model was designed for a case where any tech company could face a similar binary classification task, such as determining if a product could be sold or a mortgage could be given based on a binary target. The model architecture is illustrated in Figure 5.
 
 ![Technological model architecture](/FiguresAndTables/mainReadmeFig/5.png)  
 **Figure 5.** Technological model architecture.
 
-The NN was implemented using TensorFlow and Keras libraries and compiled using the binary cross-entropy loss function optimised with the Adam optimiser.
+The NN was implemented using `TensorFlow` and `Keras` libraries and compiled using the `binary cross-entropy` loss function optimised with the `Adam optimiser`.
 
 #### 4.3.2 Medical Model
 
-The medical model utilised was a Convolutional Neural Network (CNN), designed for image classification tasks in the medical domain. In this scenario, the data consisted of images labelled as "lung" or "not lung". The CNN was trained to classify these images based on the labels. This approach aimed to emulate similar medical experiments observed while reviewing the FL frameworks. The model architecture is depicted in Figure 6.
+The medical model utilised was a CNN, designed for image classification tasks in the medical domain. In this scenario, the data consisted of images labelled as `lung` or `not lung`. The CNN was trained to classify these images based on the labels. This approach aimed to emulate similar medical experiments observed while reviewing the FL frameworks. The model architecture is depicted in Figure 6.
 
 ![Medical model architecture](/FiguresAndTables/mainReadmeFig/6.png)  
 **Figure 6.** Medical model architecture.
 
-The CNN was implemented using TensorFlow and Keras libraries and compiled using the categorical cross-entropy loss function optimised with the Adam optimiser.
+The CNN was implemented using `TensorFlow` and `Keras` libraries and compiled using the `categorical cross-entropy` loss function optimised with the `Adam optimiser`.
 
 ---
 
 ### 4.4. Algorithm
 
-A simple algorithm was introduced for this project: The Federated Weighted Average (FedWAvg). It was designed for the distributed task of training five clients in parallel within the FL server. The server aggregated updates sent by the clients using a weighted averaging method based on the number of data points. The aggregated global model was then distributed to all clients for the next round of training. As shown in Figure 7, the server initialises the global model with weights `w0`. In each round, five clients participate, training the model locally and updating the weights `wt`. The server then collects the updated weights from all clients, computes a weighted average to update the global model, and finally sends the updated global model back to the clients.
+A simple algorithm was introduced for this project: The `Federated Weighted Average` (FedWAvg). It was designed for the distributed task of training five clients in parallel within the FL server. The server aggregated updates sent by the clients using a weighted averaging method based on the number of data points. The aggregated global model was then distributed to all clients for the next round of training. As shown in Figure 7, the server initialises the global model with weights `w0`. In each round, five clients participate, training the model locally and updating the weights `wt`. The server then collects the updated weights from all clients, computes a weighted average to update the global model, and finally sends the updated global model back to the clients.
 
 ![FedWAvg algorithm](/FiguresAndTables/mainReadmeFig/7.png)  
 **Figure 7.** FedWAvg algorithm.
@@ -107,7 +107,7 @@ A simple algorithm was introduced for this project: The Federated Weighted Avera
 
 #### 4.5.1 Technological Data
 
-The technological data used in this project was synthetically generated, with the primary requirement being a binary target and features suitable for modelling a Neural Network. Two sets of datasets were created: IID and non-IID. Python libraries such as `numpy`, `pandas`, and `Faker` were used for this purpose. For the IID datasets, each client received normally distributed feature columns and a balanced binary target variable, each consisting of 5,000 rows. The logic for IID data generation is illustrated in Figure 8.
+The technological data used in this project was synthetically generated, with the primary requirement being a binary target and features suitable for modelling a NN. Two sets of datasets were created: IID and non-IID. Python libraries such as `numpy`, `pandas`, and `Faker` were used for this purpose. For the IID datasets, each client received normally distributed feature columns and a balanced binary target variable, each consisting of 5,000 rows. The logic for IID data generation is illustrated in Figure 8.
 
 ![Technological IID data generation](/FiguresAndTables/mainReadmeFig/8.jpg)  
 **Figure 8.** Flow technological IID data generation.
@@ -121,7 +121,7 @@ In total, five clients were simulated, each receiving both IID and non-IID datas
 
 #### 4.5.2 Medical Data
 
-For this scenario, the RSNA Chest X-ray and MNIST datasets were combined. The X-ray images were downloaded, resized, normalised, and labelled as `lung`. The MNIST dataset was similarly resized, converted to Red Green and Blue (RGB), and labelled as `not lung`. This process is depicted in Figure 10.
+For this scenario, the `RSNA Chest X-ray` and `MNIST` datasets were combined. The X-ray images were downloaded, resized, normalised, and labelled as `lung`. The MNIST dataset was similarly resized, converted to Red Green and Blue (RGB), and labelled as `not lung`. This process is depicted in Figure 10.
 
 ![Medical data acquisition and preprocessing](/FiguresAndTables/mainReadmeFig/10.png)  
 **Figure 10.** Medical data acquisition and preprocessing.
@@ -135,7 +135,7 @@ For the IID scenario, datasets were created with an equal distribution of `lung`
 
 ### 5. Results
 
-As introduced in the Federated Learning server implementation, the artifact was validated using IID and non-IID data. The results are presented for both the technological and medical scenarios.
+As introduced in the FL server implementation, the artifact was validated using IID and non-IID data. The results are presented for both the `technological` and `medical` scenarios.
 
 #### 5.1. Technological Scenario
 
