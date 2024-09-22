@@ -63,7 +63,7 @@ The designed FL server has an architecture to fit multiple client nodes; for thi
 
 ### 4.2. FL Server Flow
 
-The server was run across four scenarios, `technological` and medical, each in its IID and non-IID variants. After the five clients connected, the training for the `Technological IID` scenario iterated over five rounds, followed by the same process for `Technological non-IID`, `Medical IID`, and `Medical non-IID`. After the final training scenario, the server was shut down. A [video](https://www.youtube.com/watch?v=vErRPw0Rasw) is available to illustrate this process, as shown in Figure 4.
+The server was run across four scenarios, `technological` and `medical`, each in its IID and non-IID variants. After the five clients connected, the training for the `Technological IID` scenario iterated over five rounds, followed by the same process for `Technological non-IID`, `Medical IID`, and `Medical non-IID`. After the final training scenario, the server was shut down. A [video](https://www.youtube.com/watch?v=vErRPw0Rasw) is available to illustrate this process, as shown in Figure 4.
 
 ![FL server flow](/FiguresAndTables/mainReadmeFig/4.jpg)  
 **Figure 4.** FL server flow.
@@ -212,9 +212,9 @@ Click the image above or [here](https://www.youtube.com/watch?v=vErRPw0Rasw) to 
 
 ### 7. Summary
 
-This chapter presented interesting results. For the IID variants, none of them improved the global model. In the technological scenario, only two clients showed improvement, while in the medical scenario, 100% accuracy and minimal loss were achieved from rounds one to five. However, in real-world settings, it is unlikely that data would be perfectly distributed across clients.
+This chapter presented interesting results. For the IID variants, none of them improved the global model. In the `technological` scenario, only two clients showed improvement, while in the `medical` scenario, 100% accuracy and minimal loss were achieved from rounds one to five. However, in real-world settings, it is unlikely that data would be perfectly distributed across clients.
 
-In contrast, the non-IID settings, which more closely reflect real-world scenarios, only showed improvement in the technological scenario. Three clients demonstrated improved accuracy and reduced losses over rounds. In the medical scenario, the global model did not improve, and only two clients saw better scores. A summary is provided in Table 1.
+In contrast, the non-IID settings, which more closely reflect real-world scenarios, only showed improvement in the `technological` scenario. Three clients demonstrated improved accuracy and reduced losses over rounds. In the `medical` scenario, the global model did not improve, and only two clients saw better scores. A summary is provided in Table 1.
 
 ![Summary of client and global performances](/FiguresAndTables/mainReadmeFig/23.png)  
 **Table 1.** Summary of client and global performances.
