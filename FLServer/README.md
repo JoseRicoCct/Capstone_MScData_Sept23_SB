@@ -1,6 +1,6 @@
 # Instructions to Deploy Federated Learning Cross-Client Horizontal Server
 
-**Recommendation:** The FL server was developed on **Ubuntu 22.04.4 LTS** `Operating System (OS)`, and it is recommended to use the same OS for deployment, as no other OSs have been tested with this application.
+**Recommendation:** The FL server was developed on `Ubuntu 22.04.4 LTS` using `Python version 3.10.12`. It is recommended to use the same OS and Python version for deployment, as no other OSs or Python versions have been tested with this application.
 
 This project demonstrates the implementation of a **Federated Learning (FL) Cross-Client Horizontal Server**. Users can replicate the experiment by following the steps below.
 

@@ -63,7 +63,7 @@ The designed FL server has an architecture to fit multiple client nodes; for thi
 
 ### 4.2. FL Server Flow
 
-The server was run across four scenarios, technological and medical, each in its IID and non-IID variants. After the five clients connected, the training for the Technological IID scenario iterated over five rounds, followed by the same process for Technological non-IID, Medical IID, and Medical non-IID. After the final training scenario, the server was shut down. A video is available to illustrate this process, as shown in Figure 4.
+The server was run across four scenarios, technological and medical, each in its IID and non-IID variants. After the five clients connected, the training for the Technological IID scenario iterated over five rounds, followed by the same process for Technological non-IID, Medical IID, and Medical non-IID. After the final training scenario, the server was shut down. A [video](https://www.youtube.com/watch?v=vErRPw0Rasw) is available to illustrate this process, as shown in Figure 4.
 
 ![FL server flow](/FiguresAndTables/mainReadmeFig/4.jpg)  
 **Figure 4.** FL server flow.
@@ -121,12 +121,12 @@ In total, five clients were simulated, each receiving both IID and non-IID datas
 
 #### 4.5.2 Medical Data
 
-For this scenario, the RSNA Chest X-ray and MNIST datasets were combined. The X-ray images were downloaded, resized, normalised, and labelled as "lung". The MNIST dataset was similarly resized, converted to RGB, and labelled as "not lung". This process is depicted in Figure 10.
+For this scenario, the RSNA Chest X-ray and MNIST datasets were combined. The X-ray images were downloaded, resized, normalised, and labelled as `lung`. The MNIST dataset was similarly resized, converted to Red Green and Blue (RGB), and labelled as `not lung`. This process is depicted in Figure 10.
 
 ![Medical data acquisition and preprocessing](/FiguresAndTables/mainReadmeFig/10.png)  
 **Figure 10.** Medical data acquisition and preprocessing.
 
-For the IID scenario, datasets were created with an equal distribution of lung and non-lung images, randomly shuffled, and then split into training and test subsets. In the non-IID scenario, class imbalance was introduced by varying the distribution of the images across clients, with some clients receiving more X-ray images and others receiving more MNIST images. The images for each client were saved in folders labelled as IID and non-IID, each containing subfolders for the test and train subsets. This process is demonstrated in Figure 11.
+For the IID scenario, datasets were created with an equal distribution of `lung` and `number` images, randomly shuffled, and then split into training and test subsets. In the non-IID scenario, class imbalance was introduced by varying the distribution of the images across clients, with some clients receiving more X-ray images and others receiving more MNIST images. The images for each client were saved in folders labelled as IID and non-IID, each containing subfolders for the test and train subsets. This process is demonstrated in Figure 11.
 
 ![Medical IID and non-IID dataset preparation](/FiguresAndTables/mainReadmeFig/11.png)  
 **Figure 11.** Medical IID and non-IID dataset preparation.
@@ -139,12 +139,12 @@ As introduced in the Federated Learning server implementation, the artifact was 
 
 #### 5.1. Technological Scenario
 
-The synthetic data generated for this scenario followed a normal distribution for the seven features, and the target variable was equally balanced across its two categories for the IID variant, as shown in Figure 12. Shapiro-Wilk Tests (SWTs) were conducted for feature generation. With an alpha (α) of 5%, the null hypothesis (H0) was accepted, making this scenario unlikely to occur in real-life situations.
+The synthetic data generated for this scenario followed a normal distribution for the seven features, and the target variable was equally balanced across its two categories for the IID variant, as shown in Figure 12. `Shapiro-Wilk Tests` (SWTs) were conducted for feature generation. With an alpha (α) of 5%, the null hypothesis (H0) was accepted, making this scenario unlikely to occur in real-life situations.
 
 ![Distribution analysis for IID](/FiguresAndTables/mainReadmeFig/12.png)  
 **Figure 12.** Distribution analysis for features and target variable in the IID variant.
 
-In contrast, the non-IID data was not normally distributed, and its target variable was unbalanced. Shapiro-Wilk tests conducted for feature generation, with α = 5%, resulted in the rejection of H0, as depicted in Figure 13. This scenario is likely to occur in real-life situations.
+In contrast, the non-IID data was not normally distributed, and its target variable was unbalanced. `SWTs` conducted for feature generation, with α = 5%, resulted in the rejection of H0, as depicted in Figure 13. This scenario is likely to occur in real-life situations.
 
 ![Distribution analysis for non-IID](/FiguresAndTables/mainReadmeFig/13.png)  
 **Figure 13.** Distribution analysis for features and target variable in the non-IID variant.
@@ -214,7 +214,7 @@ Click the image above or [here](https://www.youtube.com/watch?v=vErRPw0Rasw) to 
 
 This chapter presented interesting results. For the IID variants, none of them improved the global model. In the technological scenario, only two clients showed improvement, while in the medical scenario, 100% accuracy and minimal loss were achieved from rounds one to five. However, in real-world settings, it is unlikely that data would be perfectly distributed across clients.
 
-In contrast, the non-IID settings, which more closely reflect real-world scenarios, only showed improvement in the technological scenario. Three clients demonstrated improved accuracy and reduced losses over rounds. In the medical scenario, the global model did not improve, and only two clients saw better scores. A summary is provided in Table 24.
+In contrast, the non-IID settings, which more closely reflect real-world scenarios, only showed improvement in the technological scenario. Three clients demonstrated improved accuracy and reduced losses over rounds. In the medical scenario, the global model did not improve, and only two clients saw better scores. A summary is provided in Table 1.
 
 ![Summary of client and global performances](/FiguresAndTables/mainReadmeFig/23.png)  
 **Table 1.** Summary of client and global performances.
@@ -223,7 +223,7 @@ In contrast, the non-IID settings, which more closely reflect real-world scenari
 
 ### 8. Conclusion
 
-The conclusion of this research is that a fully functional cross-client horizontal FL server has been developed, capable of training models in both technical and medical scenarios using IID and non-IID data. This experiment narrows the gap between what popular FL frameworks typically offer in tutorials or case studies by delivering a more realistic FL server, though with some limitations and areas for future improvement, which will be discussed in the following sections.
+The conclusion of this research is that a fully functional cross-client horizontal FL server has been developed, capable of training models in both technological and medical scenarios using IID and non-IID data. This experiment narrows the gap between what popular FL frameworks typically offer in tutorials or case studies by delivering a more realistic FL server, though with some limitations and areas for future improvement, which will be discussed in the following sections.
 
 ---
 
@@ -231,7 +231,7 @@ The conclusion of this research is that a fully functional cross-client horizont
 
 There are a few limitations regarding the developed FL server. Below is a list of these limitations:
 
-- **Infrastructure:** The application was run on a single machine emulating a network of clients connected to a server. While this served as a proof of concept, it is limited in that, in a real FL setting, each client would be training models from different locations across the globe.
+- **Infrastructure:** The application was run on a single machine emulating a network of clients connected to a server. While this served as a `proof of concept`, it is limited in that, in a real FL setting, each client would be training models from different locations across the globe.
 - **Data:** In real-world scenarios, clients or devices use live data rather than static data. This limitation was known prior to sourcing the data; however, due to time constraints, it would have been challenging to source different APIs with tabular data and images that included both IID and non-IID variants. Additionally, the size of the datasets used was small because GitHub has limitations when handling files larger than 100MB, and it is recommended to keep repositories under 1GB. Another reason for using smaller datasets was to ensure all data was readily available for use. In real-world scenarios, the datasets would have been significantly larger than the 600KB for the technological data and the 1.40MB for the medical data on average.
 - **Communication:** The experiment revealed that communication issues between the server and clients, in both directions, can occur. The server is somewhat limited by the lack of a mechanism to control and mitigate these communication issues. Investigating the root cause of this problem would have consumed a significant portion of the time allocated to other sections of this research.
 - **Privacy:** FL is designed to enhance privacy by focusing on training local models to build a robust global model. Companies often encrypt their data before training, ensuring that sensitive information is not shared with third parties. Due to time constraints, implementing an encryption method for client data was deemed unnecessary, especially since the data used in the FL server was already fully anonymised.
@@ -258,4 +258,4 @@ Additional improvements, not related to the current limitations, that should be 
 
 ### 8.3. Recommendations
 
-The FL server was developed on Ubuntu 22.04.4 LTS using Python version 3.10.12. It is recommended to use the same OS and Python version for deployment, as no other OSs or Python versions have been tested with this application.
+The FL server was developed on `Ubuntu 22.04.4 LTS` using `Python version 3.10.12`. It is recommended to use the same OS and Python version for deployment, as no other OSs or Python versions have been tested with this application.
